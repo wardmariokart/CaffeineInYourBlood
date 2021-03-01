@@ -41,17 +41,6 @@ export const TimeInput = ({time, setTime}) => {
         return {hours: validHours, minutes: validMinutes};
     };
 
-    const handleValueChange = (e) => {
-        // empty => 0
-        // 01 => 1
-        // 123 => 12
-
-
-
-
-    }
-
-
     return <span>
         <input type='number' maxLength={2} value={time.hours} onChange={(e) => handleTimeChange({hours: parseInt(e.currentTarget.value)})}></input>
         :

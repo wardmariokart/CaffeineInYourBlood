@@ -1,0 +1,48 @@
+@import './../vars.css'; 
+
+.card {
+    display: grid;
+    grid-template: min-content 1fr min-content / 1fr;
+    padding: 1rem; /* Change */
+    
+    background-color: var(--colorLight);
+    border-radius: 0.2rem;
+    -webkit-box-shadow: 0px 9px 15px 1px rgba(0,0,0,0.15); 
+    box-shadow: 0px 9px 15px 1px rgba(0,0,0,0.15);
+}
+
+/* ________________________________________________________________________  Top */
+
+.card__top {
+    display: flex;
+}
+
+.card__top__frame {
+    background-color: var(--colorRegular);
+    border-radius: 3rem 3rem 0 0;
+    padding: 1.15rem 0.22rem 0.1rem;
+
+}
+
+.card__top__frame > img {
+    width: 2.5rem;
+    height: auto;
+}
+
+.card__top__moment > p {
+    margin: 0;
+}
+
+/* ________________________________________________________________________  Middle */
+.card__middle__table {
+    display: grid;
+    grid-template-columns: 6rem 4rem 3rem;
+}
+
+/* ________________________________________________________________________  Bottom */
+
+.card__bottom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+}

@@ -1,33 +1,40 @@
-import React from 'react'; //Why is this needed already?
-import {PropTypes} from 'prop-types';
+import './CoffeeInspector.css';
+import Card from './Card.js';
+
 
 /* import {EntityManager} from './../classes/entityManager.js'; */
 
-export const CoffeeInspector = ({selectedCoffee, updateSelectedCoffee, addCoffee}) => {
+export const CoffeeInspector = ({selectedCoffee, setCoffeeType, updateSelectedCoffee, addEmptyCoffee, removeCoffee, coffeeTypes}) => {
 
-    const handleCreateEspresso = () => {
-        addCoffee({name: 'espresso', sizeMl: 30, caffeineMgPerMl: 1.3});
-    }
-    
-    const handleCreateLatte = () => {
-        addCoffee({name: 'latte', sizeMl: 475, caffeineMgPerMl: 0.35});
-    }
 
+    const states = {IDLE: 0, INSPECTING: 1};
+    const currentState = selectedCoffee ? states.INSPECTING : states.IDLE;
+    const stateSuffixes = [
+        {state: states.IDLE, suffix: 'IDLE'},
+        {state: states.INSPECTING, suffix: 'inspecting'}
+    ]
+    const inspectorClass = `coffee-inspector--${stateSuffixes.filter(other => other.state === currentState)[0].suffix}`
  
-
-
-
     return (
-        <section>
-            {selectedCoffee && <>
-                <h2>{selectedCoffee.name}</h2>
-                <p>Size: {selectedCoffee.sizeMl}ml</p>
-                <p>Caffeine: {selectedCoffee.sizeMl * selectedCoffee.caffeineMgPerMl}mg</p>  
-                <button onClick={() => updateSelectedCoffee({sizeMl: selectedCoffee.sizeMl + 30})}>Make this coffee larger</button>
-            </>}
-            <button onClick={handleCreateEspresso}> + Espresso</button>
-            <button onClick={handleCreateLatte}> + Latte</button>
-            <p>add a coffee</p>            
+        <section className={`coffee-inspector ${inspectorClass}`}>
+            <h2>{inspectorClass}</h2>
+            {currentState === states.IDLE && 
+            <>
+                <button className='coffee-inspector__add' onClick={addEmptyCoffee}>
+                    <span>+</span>
+                    <span>add a coffee</span>
+                </button>
+            </>
+            }
+
+            { currentState === states.INSPECTING && 
+            <Card 
+                coffee={selectedCoffee}
+                coffeeTypes={coffeeTypes}
+                setCoffeeType={setCoffeeType}
+                addEmptyCoffee={addEmptyCoffee}
+                removeCoffee={removeCoffee}
+            /> }
         </section>
     );
 }
