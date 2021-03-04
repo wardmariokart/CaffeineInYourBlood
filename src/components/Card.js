@@ -1,6 +1,5 @@
-import './Card.css';
-import './../helpers.css';
-
+import styles from './../css/card.module.css';
+ 
 const Card = ({coffee, coffeeTypes, setCoffeeType, updateCoffee, addEmptyCoffee, removeCoffee}) => {
 
     const handleChangeOption = (e) => {
@@ -17,23 +16,23 @@ const Card = ({coffee, coffeeTypes, setCoffeeType, updateCoffee, addEmptyCoffee,
     }
 
     return (
-        <article className='card'>
-            <div className='card__top'>
-                <div className='card__top__frame shadow--light'>
+        <article className={styles.card}>
+            <div className={styles.cardTop}>
+                <div className={styles.cardTopFrame}>
                     <img src={coffee.imagePath ?? 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/1200px-Question_mark_%28black%29.svg.png'} alt='your beverage'></img>
                 </div>
-                <div className='card__top__moment'>
+                <div className={styles.cardTopMoments}>
                     <p>Drank at</p>
                     <p>08:30</p>
                 </div>
             </div>
 
-            <div className='card__middle'>
+            <div>
                 <select onChange={handleChangeOption} value={coffee.baseTypeId ?? false}>
                     <option disabled value={false}>--Select your type</option>
                     {jsxOptions}
                 </select>
-                <div className='card__middle__table'>
+                <div className={styles.cardMiddleTable}>
                     <span>Size</span>
                     <span>{coffee.sizeMl ?? ''}ml</span> 
                     <div>
@@ -50,7 +49,7 @@ const Card = ({coffee, coffeeTypes, setCoffeeType, updateCoffee, addEmptyCoffee,
                 </div>
             </div>
                 
-            <div className='card__bottom'>
+            <div className={styles.cardBottom}>
                 <button onClick={() => removeCoffee(coffee)}>delete</button>
                 <button onClick={addEmptyCoffee}>add new</button>
             </div>

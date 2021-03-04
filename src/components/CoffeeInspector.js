@@ -1,23 +1,14 @@
-import './CoffeeInspector.css';
+import styles from './../css/coffeeInspector.module.css';
 import Card from './Card.js';
-
-
-/* import {EntityManager} from './../classes/entityManager.js'; */
 
 export const CoffeeInspector = ({selectedCoffee, setCoffeeType, updateSelectedCoffee, addEmptyCoffee, removeCoffee, coffeeTypes}) => {
 
-
     const states = {IDLE: 0, INSPECTING: 1};
     const currentState = selectedCoffee ? states.INSPECTING : states.IDLE;
-    const stateSuffixes = [
-        {state: states.IDLE, suffix: 'IDLE'},
-        {state: states.INSPECTING, suffix: 'inspecting'}
-    ]
-    const inspectorClass = `coffee-inspector--${stateSuffixes.filter(other => other.state === currentState)[0].suffix}`
- 
+
     return (
-        <section className={`coffee-inspector ${inspectorClass}`}>
-            <h2>{inspectorClass}</h2>
+        <section className={`${styles.inspector}`}>
+            <h2>Inspector state: {Object.keys(states).find(key => states[key] === currentState)}</h2>
             {currentState === states.IDLE && 
             <>
                 <button className='coffee-inspector__add' onClick={addEmptyCoffee}>

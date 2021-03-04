@@ -1,46 +1,47 @@
-.daily-caffeine{
+.dailyCaffeine{
     padding-left: 2rem;
 }
 
-.daily-caffeine__container__bar {
+.bar {
     display: grid;
     overflow: hidden;
     height: 1.65rem;
 }
 
-.bar__limit {
+.barLimit {
     height: 100%;
     border-right: 1px solid red;
 }
 
-.bar__outline, .bar__fill, .bar__limit {
+.barOutline, .barFill, .barLimit {
     grid-row: 1;
     grid-column: 1;
 }
 
-.bar__outline {
+.barOutline {
     border: 1px solid black;
 }
 
-.bar__fill {
+.barFill {
     background-color: gray;
     transition: width 0.5s ease-in-out;
 }
 
-.bar__marks {
+.marks {
     height: 2rem;
     position: relative;
     margin-bottom: 0.2rem;
 }
 
-.bar__marks__mark, .bar__marks__mark--big {
+.mark, .markBig {
     position: absolute;
     border-right: 1px solid black;
     height: 0.3rem;
     bottom: 0px;
 }
 
-.bar__marks__mark--big {
+.markBig {
+    composes: mark;
     position: absolute;
     border-right-width: 1px;
     height: 0.5rem;

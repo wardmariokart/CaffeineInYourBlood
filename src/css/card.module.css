@@ -13,35 +13,35 @@
 
 /* ________________________________________________________________________  Top */
 
-.card__top {
+.cardTop {
     display: flex;
 }
 
-.card__top__frame {
+.cardTopFrame{
     background-color: var(--colorRegular);
     border-radius: 3rem 3rem 0 0;
     padding: 1.15rem 0.22rem 0.1rem;
 
 }
 
-.card__top__frame > img {
+.cardTopFrame > img {
     width: 2.5rem;
     height: auto;
 }
 
-.card__top__moment > p {
+.cardTopMoment > p {
     margin: 0;
 }
 
 /* ________________________________________________________________________  Middle */
-.card__middle__table {
+.cardMiddleTable {
     display: grid;
     grid-template-columns: 6rem 4rem 3rem;
 }
 
 /* ________________________________________________________________________  Bottom */
 
-.card__bottom {
+.cardBottom {
     display: flex;
     justify-content: flex-end;
     gap: 2rem;

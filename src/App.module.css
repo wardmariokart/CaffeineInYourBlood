@@ -36,21 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.app {
-   display: grid;
-   grid-template: min-content 1fr / 1fr;
-}
-
-.app > * {
-  border: 1px solid black;
-}
-
-.app__content {
-  display: grid;
-  grid-template: min-content 1fr / min-content 1fr;
-}
-
-.app__content > * {
-  border: 1px solid red;
-}

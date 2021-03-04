@@ -1,4 +1,3 @@
-import './Clearance.css';
 import React from 'react';
 
 const Clearance = () => {
