@@ -1,0 +1,27 @@
+.axis {
+    background-color: powderblue;
+    position: relative;
+    height: 4rem;
+ }
+
+.mark {
+    height: 0.5rem;
+    background-color: red;
+    width: 1px;
+    position: absolute;
+}
+
+.bigMark {
+    composes: mark;
+    height: 1.5rem;
+    width: 1px;
+    transform: translateX(-0.5px); /* makes it centered (half of width */
+}
+
+.markLabel {
+    position: relative;
+    top: 100%;
+    white-space: nowrap;
+    left: -0.75em; /* depends on font !! */
+    font-size: 0.55rem;
+}

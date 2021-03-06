@@ -8,8 +8,8 @@ const DailyCaffeine = ({coffees, dailyLimit}) => {
     const maxValueMg = ((1 - dailyLimitPosition) / dailyLimitPosition + 1) * dailyLimit;
     const barPosition = barValue / maxValueMg 
 
-    const barWidthPx = '600'; // Question: Ik wil width laten afhangen van grid. Hoe krijg ik de width in px dan? 
-
+    const barWidthPx = '400'; // Question: Ik wil width laten afhangen van grid. Hoe krijg ik de width in px dan? 
+ 
     // on mg
 
 

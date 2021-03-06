@@ -1,4 +1,20 @@
-    .overview {
+.overview {
     grid-row: 1;
     grid-column: 1 / span 2;
+    background-color: gray;
+    width: 100%;
+    height: 30rem;
+
+    display: grid;
+    grid-template-rows: 1fr min-content;
+}
+
+.graph { 
+    background-color: orange;
+}
+
+.sideDiv { /* temporary div for dev things */
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
 }

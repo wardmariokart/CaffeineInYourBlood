@@ -9,7 +9,7 @@ import styles from './css/app.module.css';
  
 const App = () => {
   return (
-    <>
+    <div className={styles.app}>
       <Nav/>
       <Switch>
         <Route path={ROUTES.ABOUT}>
@@ -28,7 +28,7 @@ const App = () => {
           <Home/>
         </Route>
       </Switch>
-    </>
+    </div>
   )
 }
 

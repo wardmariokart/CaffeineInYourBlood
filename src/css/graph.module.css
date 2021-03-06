@@ -1,0 +1,13 @@
+.graph {
+    position: relative;
+}
+
+.coffee {
+    position: absolute;
+    bottom: 20px;
+    width: 3rem;
+    height: 3rem;
+    background-color: hotpink;
+    border-radius: 100% 100% 100% 0;
+    transform: rotate(-45deg);
+}

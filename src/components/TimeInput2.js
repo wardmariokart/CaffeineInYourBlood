@@ -1,6 +1,6 @@
-import {modulo} from './../helpers.js';
+import {modulo} from '../helpers.js';
 
-export const TimeInput = ({time, setTime}) => {
+export const TimeInput2 = ({time, setTime}) => {
 
 
     /* NOT DONE YET.... */
