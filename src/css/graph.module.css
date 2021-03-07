@@ -1,5 +1,12 @@
 .graph {
+    composes: mainShadowInset from 'shadows.module.css';
+    background-color: var(--color-secondary);
     position: relative;
+    height: 20rem;
+
+    --border-radius: 2.5rem;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
 }
 
 .coffee {

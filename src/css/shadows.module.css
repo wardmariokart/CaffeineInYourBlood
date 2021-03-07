@@ -1,0 +1,30 @@
+$variable: 10px;
+
+.detailShadow {
+    -webkit-box-shadow: 0px 4px 8px 1px rgba(0,0,0,0.2); 
+    box-shadow:         0px 4px 8px 1px rgba(0,0,0,0.2);
+}
+
+.mainShadow {
+    /* before */
+    /* -webkit-box-shadow: 0px 8px 12px 1px rgba(0,0,0,0.2); 
+    box-shadow:         0px 8px 12px 1px rgba(0,0,0,0.2);*/
+    
+    /* after */
+    --alpha: 0.2;
+    --blur: 12px;
+    --offset-y: 8px;
+    --spread: 1px;
+    
+    -webkit-box-shadow: 0px var(--offset-y) var(--blur) var(--spread) rgba(0,0,0,var(--alpha)); 
+    box-shadow:         0px var(--offset-y) var(--blur) var(--spread) rgba(0,0,0,var(--alpha));
+
+    &Inset {/* Question: Is dit mogelijk? Ik wil locale css variables gebruiken om modifiers te maken */
+        box-shadow: 0px var(--offset-y) var(--blur) var(--spread) rgba(255,0,0,var(--alpha));
+    }
+}
+
+.mainShadowInset {
+    -webkit-box-shadow: inset 0px 8px 12px 1px rgba(0,0,0,0.2); 
+    box-shadow:         inset 0px 8px 12px 1px rgba(0,0,0,0.2);
+}

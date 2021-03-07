@@ -12,6 +12,9 @@ const Graph = ({coffees, selectedCoffee, graphTimeMs, graphWidthPx}) => {
     const tmp = new Array(10).fill(null);
     const coffeeBubbles = tmp.map((coffee, id) => {const d = new Date(); d.setHours(id * 2 + id % 3, (id % 3) * 15,0,24); return <div key={id} className={styles.coffee} style={{left: `${dateToPositionPx(d, graphWidthPx, graphTimeMs)}px`}}></div>});
 
+
+
+
     return (
         <div className={styles.graph}>
             {coffeeBubbles}

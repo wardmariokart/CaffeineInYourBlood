@@ -6,7 +6,13 @@ import SleepInspector from './../components/SleepInspector.js';
 import Clearance from './../components/Clearance.js';
 import DailyCaffeine from './../components/DailyCaffeine.js';
 
+import iconEspresso from '../assets/svg/espresso.svg';
+import iconDoppio from '../assets/svg/doppio.svg';
+import iconLatte from '../assets/svg/moka-pot.svg';
+
 const Home = () => {
+
+  console.log({iconEspresso});
 
   // TEMP
   // eslint-disable-next-line
@@ -16,21 +22,21 @@ const Home = () => {
       name: 'espresso',
       sizeMl: 30,
       caffeineMgPerMl: 1.3,
-      imagePath: 'https://image.flaticon.com/icons/png/512/68/68909.png'
+      imagePath: iconEspresso
     },
   {
       id: 2,
       name: 'doppio',
       sizeMl: 60,
       caffeineMgPerMl: 1.3,
-      imagePath: 'https://image.flaticon.com/icons/png/512/68/68909.png'
+      imagePath: iconDoppio
     },
     {
       id: 3,
       name: 'latte',
       sizeMl: 475,
       caffeineMgPerMl: 0.33,
-      imagePath: 'https://image.flaticon.com/icons/png/512/68/68909.png'
+      imagePath: iconLatte
     }
   ]
   const exampleCoffee = {id: undefined, baseTypeId: undefined, name: undefined, caffeineMgPerMl: undefined, sizeMl: undefined};

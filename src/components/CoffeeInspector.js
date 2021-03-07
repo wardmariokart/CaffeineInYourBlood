@@ -8,7 +8,6 @@ export const CoffeeInspector = ({selectedCoffee, setCoffeeType, updateSelectedCo
 
     return (
         <section className={`${styles.inspector}`}>
-            <h2>Inspector state: {Object.keys(states).find(key => states[key] === currentState)}</h2>
             {currentState === states.IDLE && 
             <>
                 <button className='coffee-inspector__add' onClick={addEmptyCoffee}>

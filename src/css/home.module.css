@@ -3,15 +3,8 @@
     grid-template: min-content 1fr / 1fr;
 }
 
-.home > * {
-    border: 1px solid black;
-}
 
 .content {
     display: grid;
     grid-template: min-content 1fr / min-content 1fr;
-}
-
-.content > * {
-    border: 1px solid greenyellow;
 }

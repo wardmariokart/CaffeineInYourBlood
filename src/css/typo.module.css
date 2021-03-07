@@ -1,0 +1,26 @@
+.primaryText { 
+    composes: primary from 'color.module.css';
+    font-size: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.title {
+    composes: primary from 'color.module.css';
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    margin-bottom: 0.5rem;
+}
+
+.display {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.titleDisplay { 
+    composes: title;
+    composes: display;
+    composes: primary from 'color.module.css';
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.1rem;
+}

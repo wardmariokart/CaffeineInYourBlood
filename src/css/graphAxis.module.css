@@ -1,20 +1,20 @@
 .axis {
-    background-color: powderblue;
     position: relative;
     height: 4rem;
+    padding-top: 0.5rem;
  }
 
 .mark {
     height: 0.5rem;
-    background-color: red;
+    background-color: var(--color-primary);
     width: 1px;
     position: absolute;
 }
 
 .bigMark {
     composes: mark;
-    height: 1.5rem;
-    width: 1px;
+    height: 1rem;
+    width: 2px;
     transform: translateX(-0.5px); /* makes it centered (half of width */
 }
 

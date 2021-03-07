@@ -2,6 +2,11 @@ a {
     text-decoration: none;
 }
 
+nav {
+
+    margin: 1rem 0 2.5rem;
+}
+
 .unstyledList {
     list-style-type: none;
 }

@@ -2,6 +2,6 @@
 }
 
 .app {
-    background-color: plum;
+    background-color: var(--color-background);
     margin: 0 8rem;
 }

@@ -1,0 +1,14 @@
+:global(:root) {
+    --color-primary: #EDE6C7;
+    --color-secondary: #80604B;
+    --color-background: #4F4239;
+}
+
+.primary {
+    color: var(--color-primary);
+}
+
+.svgPrimary {
+    /* Source: https://codepen.io/sosuke/pen/Pjoqqp */
+    filter: invert(93%) sepia(9%) saturate(561%) hue-rotate(8deg) brightness(99%) contrast(92%);
+}

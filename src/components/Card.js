@@ -1,5 +1,5 @@
 import styles from './../css/card.module.css';
- 
+
 const Card = ({coffee, coffeeTypes, setCoffeeType, updateCoffee, addEmptyCoffee, removeCoffee}) => {
 
     const handleChangeOption = (e) => {
@@ -19,19 +19,22 @@ const Card = ({coffee, coffeeTypes, setCoffeeType, updateCoffee, addEmptyCoffee,
         <article className={styles.card}>
             <div className={styles.cardTop}>
                 <div className={styles.cardTopFrame}>
-                    <img src={coffee.imagePath ?? 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Question_mark_%28black%29.svg/1200px-Question_mark_%28black%29.svg.png'} alt='your beverage'></img>
+                    <img className={styles.cardTopFrameIcon} src={coffee.imagePath ?? 'https://www.flaticon.com/svg/vstatic/svg/271/271228.svg?token=exp=1615053701~hmac=8a2fc7c5f208980e20e4a83c35cbd02e'} alt='your beverage'></img>
                 </div>
-                <div className={styles.cardTopMoments}>
-                    <p>Drank at</p>
-                    <p>08:30</p>
+                <div className={styles.cardTopMoment}>
+                    <p className={styles.cardTopMomentTitle}>Drank at</p>
+                    <p className={styles.cardTopMomentTime}>08:30</p>
                 </div>
             </div>
 
             <div>
-                <select onChange={handleChangeOption} value={coffee.baseTypeId ?? false}>
-                    <option disabled value={false}>--Select your type</option>
-                    {jsxOptions}
-                </select>
+                <div className={styles.selectWrapper}>
+                    <select className={styles.select} id='beverage-type' onChange={handleChangeOption} value={coffee.baseTypeId ?? false}>
+                        <option className={styles.option} disabled value={false}>--Select your type</option>
+                        {jsxOptions}
+                    </select>
+                </div>
+
                 <div className={styles.cardMiddleTable}>
                     <span>Size</span>
                     <span>{coffee.sizeMl ?? ''}ml</span> 
