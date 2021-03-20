@@ -1,0 +1,9 @@
+.timeInput {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.colon {
+    font-size: 2rem;
+}

@@ -1,7 +1,13 @@
-.intro {
-}
-
 .app {
     background-color: var(--color-background);
     margin: 0 8rem;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.footer {
+    height: 5rem;
+    background-color: violet;
 }

@@ -1,20 +1,50 @@
 .graph {
+
+
+
+}
+
+.bubble {
+    position: absolute;
+    bottom: 20px;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--color-primary);
+    border-radius: 100% 100% 100% 0;
+    transform: rotate(-45deg);
+    transition: width 125ms ease-in-out, height 125ms ease-in-out, background-color 125ms ease-in-out;
+}
+
+.bubbleSelected {
+    width: 3rem;
+    height: 3rem;
+    background-color: black;
+}
+
+.frame {
     composes: mainShadowInset from 'shadows.module.css';
-    background-color: var(--color-secondary);
-    position: relative;
     height: 20rem;
+    background-color: transparent;
+    position: relative;
+    overflow-x: scroll;
 
     --border-radius: 2.5rem;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-.coffee {
-    position: absolute;
-    bottom: 20px;
-    width: 3rem;
-    height: 3rem;
-    background-color: hotpink;
-    border-radius: 100% 100% 100% 0;
-    transform: rotate(-45deg);
+.frame::-webkit-scrollbar {
+    display: none;
 }
+
+.scrollable {
+    position: absolute;
+    height: 100%;
+    background: rgb(247,247,247);
+    /* background: linear-gradient(90deg, rgba(247,247,247,1) 0%, rgba(255,255,255,1) 9%, rgba(9,9,121,1) 10%, rgba(9,9,121,1) 21%, rgba(57,251,65,1) 22%, rgba(57,251,65,1) 92%, rgba(0,0,0,1) 93%, rgba(0,212,255,1) 100%); */
+}
+
+

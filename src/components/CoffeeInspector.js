@@ -1,7 +1,7 @@
 import styles from './../css/coffeeInspector.module.css';
 import Card from './Card.js';
 
-export const CoffeeInspector = ({selectedCoffee, setCoffeeType, updateSelectedCoffee, addEmptyCoffee, removeCoffee, coffeeTypes}) => {
+const CoffeeInspector = ({selectedCoffee, setCoffeeType, updateCoffee, setCoffeeSizeMl, setCoffeeCaffeineMgPerMl, addEmptyCoffee, removeCoffee, coffeeTypes}) => {
 
     const states = {IDLE: 0, INSPECTING: 1};
     const currentState = selectedCoffee ? states.INSPECTING : states.IDLE;
@@ -21,6 +21,9 @@ export const CoffeeInspector = ({selectedCoffee, setCoffeeType, updateSelectedCo
             <Card 
                 coffee={selectedCoffee}
                 coffeeTypes={coffeeTypes}
+                updateCoffee={updateCoffee}
+                setCoffeeSizeMl={setCoffeeSizeMl}
+                setCoffeeCaffeineMgPerMl={setCoffeeCaffeineMgPerMl}
                 setCoffeeType={setCoffeeType}
                 addEmptyCoffee={addEmptyCoffee}
                 removeCoffee={removeCoffee}
@@ -34,3 +37,5 @@ CoffeeInspector.propTypes = {
 
 CoffeeInspector.defaultProps = {
 }
+
+export default CoffeeInspector;

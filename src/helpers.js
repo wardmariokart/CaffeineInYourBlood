@@ -1,12 +1,16 @@
 export const bDebugLog = true;
 
 export const modulo = (number, modulo) => ((number % modulo) + modulo) % modulo // works as expected for negative values. {-1 % 24  = -1} but {modulo(-1, 24) = 23}
+export const mapRange = (startA, endA, startB, endB, value) => (value - startA) / (endA - startA)  * (endB - startB) + startB
+export const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
 
 export const leadingZeros = (integer, digits) => {
     let out = integer.toString();
     while(out.length < digits) out = '0' + out;
     return out;
 }
+
+
 
 export const TIME = {
     minutesInHour: 60,

@@ -1,10 +1,11 @@
 .card {
     composes: mainShadow from 'shadows.module.css';
     display: grid;
-    grid-template: min-content 1fr min-content / 1fr;
+    grid-template: min-content min-content min-content / 1fr;
     row-gap: 1rem;
     padding: 1rem; /* Change */
     background-color: var(--color-secondary);
+    height: 100%;
 }
 
 /* ________________________________________________________________________  Top */
@@ -14,7 +15,7 @@
 }
 
 .cardTopFrame{
-    composes: detailShadow from 'shadows.module.css';
+    /* composes: detailShadow from 'shadows.module.css'; */
     margin-right: 1rem;
     background-color: var(--color-background);
     border-radius: 3rem 3rem 0 0;
@@ -43,7 +44,7 @@
 /* ________________________________________________________________________  Middle */
 .cardMiddleTable {
     display: grid;
-    grid-template-columns: 6rem 4rem 3rem;
+    grid-template-columns: 6rem 4rem 1fr;
 }
 
 /* Fake select box */
@@ -61,7 +62,7 @@
     content: '\205D';
     
     position: absolute;
-    top: 0;
+    top: 3px;
     right: 0;
     width: 1.4rem;
 
@@ -73,6 +74,7 @@
 /* Real select element */
 .select {
     composes: title from 'typo.module.css';
+    font-size: var(--font-regular);
     padding: 0.3rem 1rem 0.5rem;
     margin: 0;
     flex-grow: 1;
@@ -84,13 +86,51 @@
 }
 
 .option {
-    font-size: 1rem;
+}
+
+.tableButtons {
+    display: flex;
+    justify-content: flex-start;
+    gap: var(--spacer-small);
+}
+
+.button {
+    composes: styleRegular from 'buttons.module.css';
+    composes: sizeSmall from 'buttons.module.css';
+}
+
+.button:hover {
+    /* Question: Hoe kunnen we :hover met composes gebruiken? */
+    /* voor context: https://github.com/css-modules/css-modules/issues/80 */
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+.buttonReset {
+    composes: styleAccent from 'buttons.module.css';
+    composes: sizeSmall from 'buttons.module.css';
+}
+
+.buttonReset:hover {
+    background-color: var(--button-style-accent-hover-bc);
+    color: var(--button-style-accent-hover-c);
 }
 
 /* ________________________________________________________________________  Bottom */
 
 .cardBottom {
+    margin-top: 2rem;
     display: flex;
     justify-content: flex-end;
-    gap: 2rem;
+    gap: var(--spacer-small);
+}
+
+.cardBottomButton {
+    composes: styleRegular from 'buttons.module.css';
+    composes: sizeRegular from 'buttons.module.css';
+}
+
+.cardBottomButton:hover {
+    background-color: var(--button-style-regular-hover-bc);
+    color: var(--button-style-regular-hover-c);
 }

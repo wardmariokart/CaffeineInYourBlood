@@ -5,15 +5,16 @@
  }
 
 .mark {
-    height: 0.5rem;
+    height: 1rem;
     background-color: var(--color-primary);
     width: 1px;
     position: absolute;
+    /* transition: left 1225ms ease-in-out; */
 }
 
 .bigMark {
     composes: mark;
-    height: 1rem;
+    height: 1.5rem;
     width: 2px;
     transform: translateX(-0.5px); /* makes it centered (half of width */
 }
@@ -24,4 +25,15 @@
     white-space: nowrap;
     left: -0.75em; /* depends on font !! */
     font-size: 0.55rem;
+}
+
+.frame {
+    position: relative;
+    height: 4rem;
+    padding-top: 0.5rem;
+    overflow: hidden;
+}
+
+.scrollable {
+    position: absolute;
 }

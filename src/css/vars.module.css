@@ -1,0 +1,12 @@
+:global(:root) {
+    --border-radius-small: 0.1rem;
+    --border-radius-big: 0.5rem;
+    --spacer-small: .4rem;
+    --spacer-regular: 1rem;
+    --spacer-big: 1.88rem;
+
+}
+
+.dummy { /* If i don't composes from any class in this file, vars.module.css won't add variable to the root (why?) */
+    top: auto;
+}

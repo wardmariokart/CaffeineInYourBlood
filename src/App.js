@@ -28,6 +28,7 @@ const App = () => {
           <Home/>
         </Route>
       </Switch>
+      <div className={styles.footer}></div>
     </div>
   )
 }

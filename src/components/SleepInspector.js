@@ -1,15 +1,20 @@
-import {TimeInput2} from './TimeInput2.js';
-import Clock from './Clock.js';
+import styles from './../css/sleepInspector.module.css';
 
 export const SleepInspector = ({sleepFrom, sleepUntil, setSleepFrom, setSleepUntil}) => {
+
+    
+
     return (
-    <section>
+    <section className={styles.inspector}>
         <h2>Sleep section</h2>
-        <span>I sleep from
-            <Clock/>
-            to
-            <TimeInput2 time={sleepUntil} setTime={setSleepUntil}/>
+        <span style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+            I sleep from 
+           
+            untill
+          
         </span>
+       
+       
     </section>
     );
 }

@@ -1,10 +1,17 @@
 .home {
-    display: grid;
-    grid-template: min-content 1fr / 1fr;
+    flex: 1 1 auto;
 }
 
-
-.content {
+.inspectors {
     display: grid;
-    grid-template: min-content 1fr / min-content 1fr;
+    grid-template-columns: min-content 1fr;
+    margin-top: 2rem;
+    gap: var(--spacer-big);
+}
+
+.inspectorBars {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, min-content);
+    gap: var(--spacer-big);
 }

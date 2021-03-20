@@ -73,6 +73,7 @@ const Clock = () => {
     return (
         <div>
             <input
+                /* style={styles.} */
                 type='text'
                 ref={$hoursField}
                 value={hours.display}

@@ -1,0 +1,13 @@
+:local(:root) {
+    --transition-duration-default: 125ms;
+    
+    --transition-func-default: ease-in-out;
+
+    --transition-delay-default: 0ms;
+}
+
+.transitionRegular {
+    transition-duration: var(--transition-duration-default);
+    transition-timing-function: var(--transition-func-default);
+    transition-delay: var(--transition-delay-default);
+}

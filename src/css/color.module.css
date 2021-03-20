@@ -1,7 +1,15 @@
 :global(:root) {
-    --color-primary: #EDE6C7;
-    --color-secondary: #80604B;
-    --color-background: #4F4239;
+    --color-primary: rgb(237, 230, 199);
+    --color-secondary: rgb(128, 96, 75);
+    --color-background: rgb(79, 66, 57);
+
+    --color-primary-opacity: 237, 230, 199;
+    --color-secondary-opacity: 128, 96, 75;
+    --color-background-opacity: 79, 66, 57;
+    
+    --color-background1: rgb(26, 22, 20);
+    --color-secondary1: rgb(72, 66, 60);
+    --color-primary1: rgb(215, 175, 124);
 }
 
 .primary {

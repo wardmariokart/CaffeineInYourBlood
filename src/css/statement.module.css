@@ -1,0 +1,88 @@
+.statement {
+    border: 1px solid rgba(var(--color-primary-opacity), 0.4);
+    color: var(--color-primary);
+
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+
+    width: 10rem;
+    height: 8rem;
+    padding: var(--spacer-regular);
+    cursor: pointer;
+    background-color: rgba(var(--color-secondary-opacity), 0);
+    transition-property: background-color;
+    composes: transitionRegular from 'transitions.module.css';
+}
+
+.statement:hover {
+    background-color: rgba(var(--color-secondary-opacity), 0.2);
+}
+
+.title {
+    display:none;
+    composes: subTitle from 'typo.module.css';
+    font-size: var(--font-small);
+}
+
+.body {
+    composes: primaryText from 'typo.module.css';
+    font-size: var(--font-small);
+}
+
+.bottom {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    gap: var(--spacer-small);
+}
+
+.iconWrapper {
+    display: flex;
+    align-items: center;
+    height: 2rem;
+}
+
+.icon {
+    flex: 0 0 auto; /* grow | shrink | basis => Manually define width*/ 
+
+    border: 1px solid var(--color-primary);
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    overflow: hidden;
+    transition-property: background-color;
+    compeses: transitionRegular from 'transitions.module.css';
+}
+
+.iconAgree::after, .iconDisagree::after {
+    background-position: center;
+    background-size: contain;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    filter: invert(93%) sepia(9%) saturate(561%) hue-rotate(8deg) brightness(99%) contrast(92%);
+}
+
+
+.iconAgree::after { 
+    background-image: url(./../assets/svg/agree-01.svg);
+}
+
+.iconDisagree::after {
+    background-image: url(./../assets/svg/disagree-01.svg);
+}
+
+.tip {
+    composes: primaryText from 'typo.module.css';
+    font-size: var(--font-small);
+}
+
+
+.agreeTip {
+    composes: tip;
+}
+
+.disagreeTip {
+    composes: tip;
+}

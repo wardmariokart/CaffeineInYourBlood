@@ -1,0 +1,4 @@
+.clearance { 
+    display: flex;
+    gap: var(--spacer-big);
+}
