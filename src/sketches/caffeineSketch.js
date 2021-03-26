@@ -1,33 +1,90 @@
-import { clamp, TIME, leadingZeros } from '../helpers.js';
-
+import { clamp, TIME, leadingZeros, mapRange } from '../helpers.js';
 
 const caffeineSketch = (p) => {
+
+    const colors = {
+
+        brownLight: p.color(147,112,90),
+        brownMedium: p.color(99, 83, 73),
+        brownDark:  p.color(79, 66, 57),
+        sand:       p.color(237,230,199),
+    };
+    const bDeselectOnClickNone = false;
+
     let canvas;
     let width = 100;
     let height = 100;
     let pxPerMin = 0;
     let coffees = [];
+    let selectedCoffeeId = null;
+    let selectCoffeeById = () => {};
     let startDate = null;
-    let endDate = null;
     let absorptionTimeMin = 30;
     let halfLifeMin = 6 * TIME.minutesInHour
     let pxPerSample = 30;
-    let bMouseOnGraph = false;
-    let mouseGraphPosition = {x: 0, y: 0};
+    let bMouseOnCanvas = false;
+    let mouseCanvasPosition = {x: 0, y: 0};
+    let backgroundImage = null;
 
-    const colors = {
-        brownLight: p.color(147,112,90),
-        sand:       p.color(237,230,199),
-    }
+    // example: {url: '...', loadedImage: ...}
+    const loadedImages = [];
+
+    const bubble = {
+        active: {
+            widthPx: 50,
+            heightPx: 65,
+            cornerRadiusPx: 25,
+
+            marginBottomPx: 20,
+            paddingBottomPx: 10,
+            paddingLeftRightPx: 6,
+            
+            arrowWidthPx: 12,
+            arrowHeightPx: 16,
+            
+            backgroundColor: colors.brownDark,
+            iconColor: colors.sand,
+        },
+        inactive: {
+            widthPx: 20,
+            heightPx: 30,
+            cornerRadiusPx: 20,
+            
+            marginBottomPx: 10,
+            paddingBottomPx: 6,
+            paddingLeftRightPx: 3,
+            
+            arrowWidthPx: 8,
+            arrowHeightPx: 8,
+            
+            backgroundColor: colors.brownDark,
+            iconColor: colors.sand,
+        },
+        hover: {
+            backgroundColor: colors.brownMedium,
+        }
+    };
+
+
 
     p.setup = () => {
-        console.log('sketch.setup() -> This should be 2nd')
         canvas = p.createCanvas(width, height);
-        p.noStroke();
+        createBackgroundImage();
+        canvas.elt.addEventListener('click', handleClickCanvas);
+
+        /* canvas.getContext('2d')  */
+        //canvas.elt.addEventListener('mousemove', handleMouseMoveCanvas);
+        //canvas.elt.parentElement.parentElement.addEventListener('scroll', handleScroll);
+
+       /*  canvas.elt.addEventListener('mouseenter', () => bMouseOnCanvas = true);
+        canvas.elt.addEventListener('mouseleave', () => bMouseOnCanvas = false); */
+        // Mouse move could also be done in here...
+        
     }
 
     p.draw = () => {
-        p.background(colors.brownLight);
+        //p.background(colors.brownLight);
+        drawBackground();
 
         const [vertices, peakVertex] = graphVertices();
         const peakCaffeineGraphHeight = 0.75; // Peak caffeine should be displayed at 75% of the y-axis
@@ -41,33 +98,111 @@ const caffeineSketch = (p) => {
         });
 
         drawGraphPoly(vertices);
-        drawCoffees(pxPerCaffeineMg);
-
-        if (bMouseOnGraph){
-            drawMouse(mouseGraphPosition.x, mouseGraphPosition.y, vertices);
+        
+        if (bMouseOnCanvas){
+            drawMouse(mouseCanvasPosition.x, mouseCanvasPosition.y, vertices);
         } 
-
+        drawBubbles();
     }
 
     p.myCustomRedrawAccordingToNewPropsHandler = (newProps) => {
         // Called before p.setup AND on rerende / prop change
-        
         coffees = newProps.coffees;
+        loadCoffeeImages();
+        console.log('newprops');
+        selectedCoffeeId = newProps.selectedCoffeeId;
+        selectCoffeeById = newProps.selectCoffeeById;
         pxPerMin = newProps.pxPerMin;
         startDate = newProps.startDate;
-        endDate = newProps.endDate;
-        mouseGraphPosition = newProps.mouseGraphPosition;
-        bMouseOnGraph = newProps.bMouseOnGraph;
+        mouseCanvasPosition = newProps.mouseCanvasPosition;
+        bMouseOnCanvas = newProps.bMouseOnCanvas;
         halfLifeMin = newProps.halfLifeMin;
 
         const prevWidth = width;
         const prevHeight = height;
         width = newProps.width;
         height = newProps.height;
-        if(canvas) //Make sure the canvas has been created            
+        if(canvas){
             if (prevWidth !== width || prevHeight !== height) {
                 p.resizeCanvas(width, height);
+                createBackgroundImage();
             }
+        }
+    }
+
+    const loadCoffeeImages = () => {
+        coffees.forEach(coffee => {
+            // check already loaded
+            const bLoaded = loadedImages.some(loadedImage => loadedImage.url === coffee.imagePath);
+            if (!bLoaded) {
+                loadedImages.push({url: coffee.imagePath, loadedImage: p.loadImage(coffee.imagePath)});
+                console.log(`New loaded!`);
+            }
+        })
+    }
+
+    const getLoadedImageByUrl = (imagePath) => {
+        return loadedImages.find(loadedImage => imagePath === loadedImage.url);
+    }
+
+    const createBackgroundImage = () => {
+        const sunset = {hour: 19, minute: 30};
+        const sunrise = {hour: 7, minute: 0};
+        const durationMs = 90 * TIME.msInMinute;
+    
+
+        const colorDay = colors.brownLight;
+        const colorNight = colors.brownMedium;
+    
+        const dateToSkyColor = (date) => {
+            const dateMs = date.getHours() * TIME.msInHour + date.getMinutes() * TIME.msInMinute;
+            const sunsetStartMs = sunset.hour * TIME.msInHour + sunset.minute * TIME.msInMinute;
+            const sunsetEndMs = sunsetStartMs + durationMs;
+            
+            const sunriseStartMs = sunrise.hour * TIME.msInHour + sunrise.minute * TIME.msInMinute;
+            const sunriseEndMs = sunriseStartMs + durationMs;
+
+
+            // optimized
+            if (dateMs > sunriseEndMs && dateMs < sunsetStartMs) { // day
+                return 1;  
+            } else if (dateMs > sunsetEndMs && dateMs < sunriseStartMs) { // night
+                return 0;
+            } else if (dateMs >= sunsetStartMs && dateMs <= sunsetEndMs ) { // during sunset
+                return clamp(mapRange(sunsetStartMs, sunsetEndMs, 1, 0, dateMs), 0,1);
+            } else if  (dateMs >= sunriseStartMs && dateMs <= sunriseEndMs) { // during sunrise
+                return clamp(mapRange(sunriseStartMs, sunriseEndMs, 0, 1, dateMs), 0,1);
+            }
+
+            return 0;
+        }
+
+        backgroundImage = p.createGraphics(width, 1);
+        for(let x = 0; x < width; x++) {
+            const a = dateToSkyColor(xPositionToDate(x));
+            const outColor = p.lerpColor(colorNight, colorDay, a);
+            backgroundImage.set(x, 0, outColor);
+        }
+        backgroundImage.updatePixels();
+    }
+    
+    const drawBackground = () => {
+
+        if (backgroundImage) {
+            p.noSmooth();
+            p.image(backgroundImage, 0, 0, width, height*2);
+            p.smooth();
+        }
+    }
+
+    const drawHorizontalGradient = (x, y, widthPx, heightPx, startColor, endColor, axis) => {
+        // source: https://p5js.org/examples/color-linear-gradient.html (but I understand)
+        for (let i = x; i <= x + widthPx; i++) {
+            let inter = p.map(i, x, x + widthPx, 0, 1);
+            let c = p.lerpColor(startColor, endColor, inter);
+            p.stroke(c);
+            p.line(i, y, i, y + heightPx);
+          }
     }
 
     const drawGraphPoly = (vertices) => {
@@ -101,36 +236,40 @@ const caffeineSketch = (p) => {
         p.endShape();
     }
 
-    const drawCoffees = (pxPerCaffeineMg) => {
-        
-        const pinWidthHalf = 20/2;
-        const pinHeightHalf = 30/2;
-        const cornerRadius = 20;
-
-        const arrowHeightHalf = 8/2;
-        const arrowWidthHalf = 8/2;
-
-        const bottomMargin = 8;
-
-        p.noStroke();
-        colors.sand.setAlpha(255);
-        p.fill(colors.sand);
-        colors.sand.setAlpha(255);
-
+    const drawBubbles = () => {
         coffees.forEach(coffee => {
-            const x = dateToXPosition(coffee.consumedAt);
-            const y = height - bottomMargin - arrowHeightHalf * 2  - pinHeightHalf;
-            
+            const bSelected = coffee.id === selectedCoffeeId;
+            const bHovered = hitDetectionBubbles([coffee]).length > 0;
+            const dimensions =  bSelected ? bubble.active : bubble.inactive;
+
+            p.noStroke();
+            /* colors.sand.setAlpha(255); */
+            const fillColor = bHovered ? bubble.hover.backgroundColor : dimensions.backgroundColor;
+            p.fill(fillColor);
+            /* colors.sand.setAlpha(255); */
+
+            const boundingBox = getBubbleBoundingBox(coffee); 
+
             p.rect(
-                x - pinWidthHalf, y - pinHeightHalf,
-                pinWidthHalf * 2, pinHeightHalf * 2,
-                cornerRadius, cornerRadius, 0 , 0);
+                boundingBox.left, boundingBox.top,
+                dimensions.widthPx, dimensions.heightPx,
+                dimensions.cornerRadiusPx, dimensions.cornerRadiusPx, 0 , 0);
 
             p.triangle(
-                x - arrowWidthHalf, y + pinHeightHalf,
-                x + arrowWidthHalf, y + pinHeightHalf,
-                x, y + pinHeightHalf + arrowHeightHalf * 2,
-            )
+                boundingBox.center.x - dimensions.arrowWidthPx / 2, boundingBox.bottom,
+                boundingBox.center.x + dimensions.arrowWidthPx / 2, boundingBox.bottom,
+                boundingBox.center.x, boundingBox.bottom + dimensions.arrowHeightPx);
+
+                
+                const loadedImage = getLoadedImageByUrl(coffee.imagePath).loadedImage;
+                if(loadedImage) {
+                    const iconWidthPx = dimensions.widthPx - dimensions.paddingLeftRightPx * 2;
+                    const aspectRatio =  loadedImage.height / loadedImage.width;
+                    const iconDimensions = {widthPx: iconWidthPx, heightPx: iconWidthPx * aspectRatio};
+                    p.tint(dimensions.iconColor);
+                    p.image(loadedImage, boundingBox.left + dimensions.paddingLeftRightPx, boundingBox.bottom - dimensions.paddingBottomPx - iconWidthPx, iconDimensions.widthPx, iconDimensions.heightPx);
+                    p.noTint();
+            }
         })
     }
 
@@ -141,10 +280,10 @@ const caffeineSketch = (p) => {
 
         if(vertices.length > 0) {
             // find current caffeine level
-            let prevId = vertices[vertices.length - 1];
-            let nextId = vertices[vertices.length - 1];
+            let prevId = vertices.length - 1;//vertices[vertices.length - 1];
+            let nextId = vertices.length - 1;//vertices[vertices.length - 1];
             for(let i = 0; i < vertices.length; i++) {
-                if (vertices[i].x > mouseGraphPosition.x) {
+                if (vertices[i].x > mouseCanvasPosition.x) {
                     prevId = Math.max(0, i - 1);
                     nextId = i;
                     break;
@@ -152,13 +291,14 @@ const caffeineSketch = (p) => {
             }
             const nextVertex = vertices[nextId];
             const prevVertex = vertices[prevId];
+           // console.log({prevId, nextId});
            /*  p.fill('green');
             p.ellipse(nextVertex.x, nextVertex.y, 5, 5);
             p.fill('blue');
             p.ellipse(prevVertex.x, prevVertex.y, 5, 5); */
             const progressBetween = (x - prevVertex.x) / (nextVertex.x  - prevVertex.x);
             drawY = prevVertex.y - ( prevVertex.y - nextVertex.y ) * progressBetween;
-            const t = xPositionToDate(mouseGraphPosition.x);
+            const t = xPositionToDate(mouseCanvasPosition.x);
             messages.push({bBold: false, fontSize: 15, lineHeight: 18, message: `${leadingZeros(t.getHours(), 2)}:${leadingZeros(t.getMinutes(), 2)}`});
             const caffeineAtMouseMg = caffeineMgAtTimeMin2(t, prevVertex.time, prevVertex.caffeineMg);
             messages.push({bBold: true, fontSize: 20, lineHeight: 16, message: `${caffeineAtMouseMg.toFixed(0)}mg`});
@@ -196,13 +336,12 @@ const caffeineSketch = (p) => {
         p.stroke(colors.sand);
         p.noFill();
         p.ellipse(x, drawY, 15, 15);
-        p.line(mouseGraphPosition.x, 0, mouseGraphPosition.x, height);
+        p.line(mouseCanvasPosition.x, 0, mouseCanvasPosition.x, height);
 
     }
 
     // Exponential decay (multiple beverages)
     const graphVertices = () => {
-        
         const vertices = [];
 
         let peakVertex = {caffeineMg: 0};
@@ -213,7 +352,7 @@ const caffeineSketch = (p) => {
 
         const xSampleInserts = [];
         coffees.forEach(coffee => xSampleInserts.push(dateToXPosition(coffee.consumedAt.getTime()), dateToXPosition(coffee.consumedAt.getTime() + absorptionTimeMin * TIME.msInMinute)));
-        //if (bMouseOnGraph) xSampleInserts.push(mouseGraphPosition.x);
+        //if (bMouseOnCanvas) xSampleInserts.push(mouseCanvasPosition.x);
 
         let lastRegularProgressPx = 0;
         while(xProgressPx <= width) {
@@ -274,7 +413,6 @@ const caffeineSketch = (p) => {
 
         let caffeineMg = 0;
         coffees.filter(filter => !filter.bInCreation).forEach(coffee => {
-
             const inBloodTimeMin = (t - coffee.consumedAt) / TIME.msInMinute;
             const timeSincePeakMin = Math.max(0, inBloodTimeMin - absorptionTimeMin);
             const absorptionPhaseMg = clamp(inBloodTimeMin / absorptionTimeMin, 0, 1) * coffee.sizeMl * coffee.caffeineMgPerMl;
@@ -313,9 +451,61 @@ const caffeineSketch = (p) => {
         return t;
     }
 
-    const dateToXPosition= (date) => {
+    const dateToXPosition = (date) => {
         const timeSinceStartMs = date - startDate;
         return timeSinceStartMs / TIME.msInMinute * pxPerMin; 
+    }
+
+    const getBubbleBoundingBox = (coffee) => {
+        const bSelected = coffee.id === selectedCoffeeId;
+        const dimensions =  bSelected ? bubble.active : bubble.inactive;
+
+        //center
+        const x = dateToXPosition(coffee.consumedAt);
+        const y = height - dimensions.marginBottomPx - dimensions.arrowHeightPx - dimensions.heightPx / 2;
+
+        const top = y - dimensions.heightPx / 2;
+        const right = x + dimensions.widthPx / 2;
+        const bottom = y + dimensions.heightPx / 2;
+        const left = x - dimensions.widthPx / 2;
+        const center = {x, y};
+
+        return {top, right, bottom, left, center};
+    }
+
+    const hitDetectionBubbles = (coffeesToCheck = null) => {
+        coffeesToCheck = coffeesToCheck ?? coffees;
+    
+        if (!coffeesToCheck) return [];
+
+        const mx = mouseCanvasPosition.x;
+        const my = mouseCanvasPosition.y;
+
+        return coffeesToCheck.filter(coffee => {
+            const hitBox = getBubbleBoundingBox(coffee);
+            return mx > hitBox.left && mx < hitBox.right && my > hitBox.top && my < hitBox.bottom;
+        });
+    }
+
+    const getMousePositionFromEvent = (e) => {
+        const frameRect = e.currentTarget.getBoundingClientRect();
+        const localX = e.clientX - frameRect.left;
+        const localY = e.clientY - frameRect.top;
+        return {x: localX, y:localY};
+    }
+
+    const handleClickCanvas = (e) => {
+
+        const coffeeHits = hitDetectionBubbles();
+        if (coffeeHits.length > 0) {
+            selectCoffeeById(coffeeHits[0].id);
+        } else if (bDeselectOnClickNone) {
+            selectCoffeeById(null);
+        }
+    };
+    
+    const handleMouseMoveCanvas = (e) => {
+        //mouseCanvasPosition = getMousePositionFromEvent(e);
     }
 
 }

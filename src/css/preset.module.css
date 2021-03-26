@@ -1,0 +1,134 @@
+.preset {
+    width: min-content;
+}
+
+.faded {
+    opacity: 0.5;
+    transition-property: opacity;
+    composes: transitionRegular from 'transitions.module.css';
+}
+
+.active .faded {
+    opacity: 1;
+}
+
+.title {
+    composes: title from 'typo.module.css';
+    font-size: var(--font-regular);
+    margin: 1rem 0 0.4rem;
+    composes: faded;
+}   
+
+.statedBorderColor {
+    border-color: rgba(var(--color-primary-opacity), 0.2);
+    transition-property: border-color;
+    composes: transitionRegular from 'transitions.module.css';
+}
+
+.active .statedBorderColor {
+    border-color: rgba(var(--color-primary-opacity), 1);
+}
+
+.container {
+    border-width: 1px;
+    border-style: solid;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr min-content;
+    width: 30rem;
+    overflow: hidden;
+
+    background-color: var(--color-background);
+
+    transition-property: background-color;
+    composes: transitionRegular from 'transitions.module.css';
+}
+
+.preset:hover .container {
+    background-color: rgba(var(--color-secondary-opacity), 0.1);
+}
+
+.containerCoffees {
+    display: flex;
+    gap: 2.5rem;
+    padding: var(--spacer-regular);
+    overflow-x: scroll;
+}
+
+.containerControls {
+    width: 0rem;
+    border-left-width: 1px;
+    border-left-style: solid;
+    transform: translateX(1px);
+    transition-property: width;
+    composes: transitionSlow from 'transitions.module.css';
+    transition-timing-function: ease-out;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow: hidden;
+}
+
+.preset:not(.active):hover .containerControls {
+    transform: translateX(0);
+    width: 9rem;
+}
+
+.active .containerControls {
+    transform: translateX(0);
+    width: 11rem;
+}
+
+.controlsText {
+    composes: primaryText from 'typo.module.css';
+    font-size: var(--font-small);
+}
+
+.controlsActivate {
+    composes: styleRegular from 'buttons.module.css';
+    composes: sizeSmall from 'buttons.module.css';
+    white-space: nowrap;
+}
+
+.controlsActivateButtons {
+    display: flex;
+    justify-content: space-evenly;
+    gap: var(--spacer-small);
+}
+
+.controlsActivate:hover {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+.coffee {
+    display: grid;
+    grid-template-columns: min-content min-content;
+    gap: var(--spacer-small);
+
+    composes: faded;
+    
+}
+
+.coffeeIcon {
+    height: 2rem;
+    composes: svgPrimary from 'color.module.css';
+}
+
+.coffeeTitle {
+    composes: primaryText from 'typo.module.css';
+    composes: upperCase from 'typo.module.css';
+    white-space: nowrap;
+    font-size: var(--font-small);
+    margin: 0;
+}
+
+.coffeeTime {
+    composes: primaryText from 'typo.module.css';
+    composes: upperCase from 'typo.module.css';
+    font-size: var(--font-regular);
+    font-weight: bold;
+    margin: 0;
+}

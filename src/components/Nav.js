@@ -8,23 +8,24 @@ const Nav = () => {
             <nav>
                 <ul className={`${styles.unstyledList} ${styles.navList}`}>
                     <li>
-                        <NavLink className='nav-link' to={ROUTES.PRESETS}>presets</NavLink>
-                    </li>
-                    <li>
-                        <NavLink className='nav-link' to={ROUTES.ADVANCED}>advanced</NavLink>
-                    </li>
-                    <li>
-                        <NavLink className={styles.navLink} exact strict to={ROUTES.HOME}>
-                            <header className={styles.header}>
-                                <span>how much</span>
+                        <NavLink className={styles.primaryLink}  exact strict to={ROUTES.HOME}>
+                            <h1 className={styles.header}>
+                                <span className={styles.headerTitle}>how much</span>
                                 <span className={styles.headerAccent}>caff<br/>eine</span>
-                                <span>is in my blood</span>
-                            </header>
+                                <span className={styles.headerTitle}>is in my blood</span>
+                            </h1>
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink className='nav-link' to={ROUTES.ABOUT}>about</NavLink>
-                    </li>
+                    <div className={styles.navSecondary}>
+                        <li>
+                            <NavLink className={styles.secondaryLink} activeClassName={styles.active} to={ROUTES.PRESETS}>presets</NavLink>
+                        </li>
+
+                        <li>
+                            <NavLink className={styles.secondaryLink} activeClassName={styles.active} to={ROUTES.ABOUT}>about</NavLink>
+                        </li>
+                    </div>
+
                 </ul>
             </nav>
         </>

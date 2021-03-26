@@ -1,5 +1,5 @@
 .statement {
-    border: 1px solid rgba(var(--color-primary-opacity), 0.4);
+    border: 1px solid rgba(var(--color-primary-opacity), 0.2);
     color: var(--color-primary);
 
     display: grid;
@@ -12,6 +12,18 @@
     background-color: rgba(var(--color-secondary-opacity), 0);
     transition-property: background-color;
     composes: transitionRegular from 'transitions.module.css';
+
+    transition-property: border-color;
+    composes: transitionRegular from 'transitions.module.css';
+}
+
+.statementDisagree {
+    composes: statement;
+}
+
+.statementAgree {
+    composes: statement;
+    border-color: rgba(var(--color-primary), 1);
 }
 
 .statement:hover {
@@ -34,6 +46,10 @@
     display: grid;
     grid-template-columns: min-content 1fr;
     gap: var(--spacer-small);
+}
+
+.statementDisagree .bottom {
+    opacity: 0.5;
 }
 
 .iconWrapper {

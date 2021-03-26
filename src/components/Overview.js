@@ -1,25 +1,16 @@
 import styles from './../css/overview.module.css';
 import GraphAxis from './GraphAxis.js';
 import Graph from './Graph.js';
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { TIME } from '../helpers.js';
 import anime from 'animejs/lib/anime.es.js';
-import useWindowSize from '../hooks/useWindowSize.js';
+import useRefSize from '../hooks/useRefSize.js';
 
 const Overview = ({coffees, selectedCoffee, selectCoffeeById, halfLifeMin}) => {
 
     /* Resizing and getting a dynamic element size */
-    const $overview = useRef(null);
-    const windowSize = useWindowSize();
-    const [graphWidthPx, setGraphWidthPx] = useState(500);
-
-
-    useLayoutEffect(() => {
-        if ($overview) {
-            setGraphWidthPx($overview.current.offsetWidth);
-            //console.log('graph width updated!' + $overview.current.offsetWidth);
-        }   
-    }, [windowSize]);
+    const $overview = useRef();
+    const overviewSize = useRefSize($overview);
 
     let startDate = new Date(Date.now()).setHours(0,0,0,0);
     let endDate = new Date(Date.now()).setHours(24,0,0,0);
@@ -28,28 +19,11 @@ const Overview = ({coffees, selectedCoffee, selectCoffeeById, halfLifeMin}) => {
     const [graphHours, setGraphHours] = useState(10);
     endDate = new Date(startDate + TIME.msInHour * graphHours); 
 
-    const pxPerMin = graphWidthPx / (graphHours * TIME.minutesInHour); 
+    const pxPerMin = overviewSize.widthPx / (graphHours * TIME.minutesInHour); 
 
     const [frameStartMs, setFrameStartMs] = useState(3 * TIME.msInHour);
-    
-/*     useEffect(() => {
-        return;
-        const animeJsTarget = {graphHours: graphHours};
-        anime({
-            targets: animeJsTarget,
-            graphHours: graphHoursClean,
-            duration: 2000,
-            easing: 'easeInOutCubic',
-            update: function(anim) {
-                setGraphHours(animeJsTarget.graphHours);
-                console.log(anim.progress);
-              }
 
-        });
-    }, []) */
-
-
-    const frameWidthPx = graphWidthPx;
+    const frameWidthPx = overviewSize.widthPx;
     const frameTimeMs = endDate - startDate;
     const scrollableOffsetMin = -frameStartMs / TIME.msInMinute;
 
@@ -94,7 +68,7 @@ const Overview = ({coffees, selectedCoffee, selectCoffeeById, halfLifeMin}) => {
                 coffees={coffees}
                 selectedCoffee={selectedCoffee}
                 selectCoffeeById={selectCoffeeById}
-                frameWidthPx={graphWidthPx}
+                frameWidthPx={overviewSize.widthPx}
                 startDate={startDate}
                 endDate={endDate}
                 halfLifeMin={halfLifeMin}

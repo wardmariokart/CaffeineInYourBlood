@@ -4,8 +4,8 @@ import { easeInExpo, easeOutQuad, easeOutBack } from '../helpers/easingHelpers.j
 
 const GraphAxis = ({scrollPx, scrollableTimeMs, frameTimeMs, frameWidthPx, startDate}) => {
 
-    const minutesPerMark = 15;
-    const bigMarkInterval = 4; // 1 big mark for every nth mark
+    const minutesPerMark = 5;
+    const bigMarkInterval = 12; // 1 big mark for every nth mark
     const markClass = styles.mark;
     const bigMarkClass = styles.bigMark;
     
@@ -22,9 +22,12 @@ const GraphAxis = ({scrollPx, scrollableTimeMs, frameTimeMs, frameWidthPx, start
         let wPosPercent = world / frameWidthPx; // 0 = most left. 1 = most right
         wPosPercent = isNaN(wPosPercent) ? 0 : wPosPercent; 
         
-        const scalePercent = positionToPercent(wPosPercent, 0.04);
-        const scale = easeOutQuad(scalePercent);//easeOutBack(scalePercent);
-        const opacityPercent = positionToPercent(wPosPercent, 0.1);
+        const scaleStartPosition = 0.1;
+        const scalePercent = positionToPercent(wPosPercent, scaleStartPosition);
+        const scale = easeOutBack(scalePercent);//easeOutBack(scalePercent);
+
+        const opacityStartPosition = 0.05;
+        const opacityPercent = positionToPercent(wPosPercent, opacityStartPosition);
         const opacity = easeOutQuad(opacityPercent);
 
         const style = {left: `${local}px`,
@@ -40,11 +43,6 @@ const GraphAxis = ({scrollPx, scrollableTimeMs, frameTimeMs, frameWidthPx, start
     const getMarkLocation = (i) => {
         const local = i * pxPerMark;
         const world = local - scrollPx;
-
-        
-
-
-
         return {local, world}
     }
 

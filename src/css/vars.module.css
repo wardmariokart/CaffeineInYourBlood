@@ -1,6 +1,7 @@
 :global(:root) {
     --border-radius-small: 0.1rem;
     --border-radius-big: 0.5rem;
+    --spacer-tiny: .2rem;
     --spacer-small: .4rem;
     --spacer-regular: 1rem;
     --spacer-big: 1.88rem;

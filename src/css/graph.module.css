@@ -1,9 +1,3 @@
-.graph {
-
-
-
-}
-
 .bubble {
     position: absolute;
     bottom: 20px;
@@ -23,12 +17,11 @@
 
 .frame {
     composes: mainShadowInset from 'shadows.module.css';
-    height: 20rem;
     background-color: transparent;
     position: relative;
     overflow-x: scroll;
 
-    --border-radius: 2.5rem;
+    --border-radius: 3.5rem;
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
 

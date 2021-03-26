@@ -1,11 +1,27 @@
-.inspector {
-    overflow: hidden;
-    width: 15rem;
+.container {
+    width: 19rem;
+}
 
+.inspector {
     border: 1px solid rgba(var(--color-primary-opacity), 0.2);
     height: 100%;
 
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.emptyAdd {
+    composes: styleRegular from 'buttons.module.css';
+    composes: sizeBig from 'buttons.module.css';
+    --button-size: 5rem;
+    width: var(--button-size);
+    height: var(--button-size);
+    
+}
+
+.emptyAdd:hover {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    
 }

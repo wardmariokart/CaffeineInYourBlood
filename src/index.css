@@ -1,19 +1,23 @@
 @import-normalize; 
-html, body, #root, .app{
+
+/* html, body, #root, .app{
   width: 100%;
   height: 100%;
-}
+} */
 
 html{
-	/* font-size: 62.5%; */
   box-sizing: border-box;
+}
+
+body {
+  margin: 0;
 }
 
 *, *:before, *:after {
   box-sizing: inherit;
 }
 
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -40,3 +44,4 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+ */

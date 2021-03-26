@@ -1,35 +1,65 @@
 import styles from './../css/dailyCaffeine.module.css';
-const DailyCaffeine = ({coffees, dailyLimit}) => {
+import { useState, useRef, useEffect } from 'react';
+import useRefSize from '../hooks/useRefSize.js';
+import AxisTag from './AxisTag.js';
+
+const DailyCaffeine = ({coffees, dailyLimitMg}) => {
     
     // 'Position' is in percentage relative to full bar width
     // 'Value' is the actual mg
-    const barValue = coffees.reduce((acc, coffee) => acc + coffee.sizeMl * coffee.caffeineMgPerMl, 0);
-    const dailyLimitPosition = 0.75;
-    const maxValueMg = ((1 - dailyLimitPosition) / dailyLimitPosition + 1) * dailyLimit;
-    const barPosition = barValue / maxValueMg 
+    const totalCaffeineMg = coffees.reduce((acc, coffee) => acc + coffee.sizeMl * coffee.caffeineMgPerMl, 0);
+    
+    const occupiedBarPosition = 0.85;
+    const maxPositionLimit = 0.75; 
+    const maxPositionTotal = 0.9; 
 
-    const barWidthPx = '400'; // Question: Ik wil width laten afhangen van grid. Hoe krijg ik de width in px dan? 
- 
-    // on mg
+    const maxValueByLimit = dailyLimitMg * maxPositionLimit; 
+    const maxValueByTotal = totalCaffeineMg * maxPositionTotal;
+    //const maxValueMg = ((1 - occupiedBarPosition) / occupiedBarPosition + 1) * maxValueByLimit > maxValueByTotal ? daily 
+    // todo!!
 
+    const maxValueMg = ((1 - occupiedBarPosition) / occupiedBarPosition + 1) * Math.max(totalCaffeineMg, dailyLimitMg);
+    const fillPosition = totalCaffeineMg / maxValueMg;
+    const limitPosition = dailyLimitMg / maxValueMg;
 
-    const markIntervalMg = 25;
-    const markIntervalPx = markIntervalMg/maxValueMg * barWidthPx;
-    const bigMarkInteval = 4; // Every 4th mark is big
-    let marks = Array(Math.floor(barWidthPx/markIntervalPx) + 1).fill(null);
+    const container = useRef();
+    const containerSize = useRefSize(container);
+    console.log({containerSize});
+
+    const markIntervalMg = 10;
+    const markIntervalPx = markIntervalMg/maxValueMg * containerSize.widthPx;
+    console.log({markIntervalPx});
+    const bigMarkInteval = 5; // Every 4th mark is big
+    let marks = Array(Math.floor(containerSize.widthPx/markIntervalPx) + 1).fill(null);
     marks = marks.map((e, i) => <div key={i} className={i % bigMarkInteval === 0 ? styles.markBig : styles.mark} style={{left: `${markIntervalPx * i}px`}}></div>);
     
     return (
-        <section className={styles.dailyCaffeine}>
-            <h2>Daily caffeine intake: {barValue}mg</h2>
-            <div style={{width: `${barWidthPx}px`}}>
-                <div className={styles.marks}>
-                    {marks}
-                </div>
-                <div className={styles.bar}>    {/* Question: Hier weet ik niet goed hoe ik dit een defitge BEM naam geef */}
-                    <div className={styles.barFill} style={{width: `${barPosition*100}%`, height: '100%'}}></div>
-                    <div className={styles.barLimit} style={{width: `${dailyLimitPosition*100}%`}}></div>
+        <section ref={container}>
+            <div style={{width: `100%`}}>
+            <h2 className={styles.title}>Your daily caffeine intake</h2>
+                
+                <div className={styles.bar}>  
+                    <div className={styles.barFill} style={{width: `${fillPosition*100}%`, height: '100%'}}></div>
+                    <div className={styles.barLimit} style={{width: `${limitPosition*100}%`}}></div>
                     <div className={styles.barOutline}></div>
+                </div>
+                <div className={styles.marks}>
+                    {/* {marks} */}
+                    <AxisTag 
+                        tag={`DAILY LIMIT`} 
+                        positionPercent={limitPosition}
+                        axisWidthPx={containerSize.widthPx}   
+                        bBubble={false}
+                    />
+                    <AxisTag 
+                        tag={`${totalCaffeineMg.toFixed(0)}mg`} 
+                        positionPercent={fillPosition}
+                        axisWidthPx={containerSize.widthPx}   
+                        bBubble={false} 
+                    />
+
+
+                    
                 </div>
                 <div>
                     
@@ -42,7 +72,7 @@ const DailyCaffeine = ({coffees, dailyLimit}) => {
 
 DailyCaffeine.defaultProps = {
     coffees: [],
-    dailyLimit: 250
+    dailyLimitMg: 250
 }
 
 export default DailyCaffeine;

@@ -1,0 +1,8 @@
+.page {
+    max-width: 56rem;
+    margin: 0 auto;
+}
+
+.title {
+    composes: title from 'typo.module.css';
+}

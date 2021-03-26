@@ -1,13 +1,20 @@
 :local(:root) {
-    --transition-duration-default: 125ms;
+    --transition-duration-regular: 125ms;
+    --transition-duration-slow: 250ms;
     
-    --transition-func-default: ease-in-out;
+    --transition-func-regular: ease-in-out;
 
-    --transition-delay-default: 0ms;
+    --transition-delay-regular: 0ms;
 }
 
 .transitionRegular {
-    transition-duration: var(--transition-duration-default);
-    transition-timing-function: var(--transition-func-default);
-    transition-delay: var(--transition-delay-default);
+    transition-duration: var(--transition-duration-regular);
+    transition-timing-function: var(--transition-func-regular);
+    transition-delay: var(--transition-delay-regular);
+}
+
+.transitionSlow {
+    transition-duration: var(--transition-duration-slow);
+    transition-timing-function: var(--transition-func-regular);
+    transition-delay: var(--transition-delay-regular);
 }

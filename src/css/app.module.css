@@ -1,13 +1,19 @@
+body {
+    background-color: var(--color-background);
+}
+
 .app {
     background-color: var(--color-background);
-    margin: 0 8rem;
-
+    margin: 0 auto;
+    max-width: 1300px;
+    min-width: 1125px;
+    padding: 0 4rem;
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
 .footer {
-    height: 5rem;
-    background-color: violet;
+    margin-top: auto;
+    height: 2rem;
 }

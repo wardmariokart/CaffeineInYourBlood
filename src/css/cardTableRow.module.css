@@ -1,0 +1,16 @@
+.title {
+    white-space: nowrap;
+}
+.buttons {
+    display: flex;
+    gap: var(--spacer-tiny);
+}
+
+.value {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.valueSuffix {
+    font-weight: 200;
+}

@@ -5,36 +5,44 @@
     --button-style-accent-hover-c: var(--color-primary);
 }
 
+.buttonBase {
+    cursor: pointer;
+    font-family: var(--font-condensed);
+    font-weight: 200;
+
+    transition-property: background-color, color, border-color;
+    composes: transitionRegular from 'transitions.module.css';
+}
+
 .styleRegular {
+    composes: buttonBase;
     border: 1px solid var(--color-primary);
     border-radius: var(--border-radius-small);
     color: var(--color-primary);
-    background-color: transparent;
-
-    transition-property: background-color, color;
-    composes: transitionRegular from 'transitions.module.css';      
+    background-color: transparent; 
     
     composes: dummy from 'vars.module.css';/* This is required for vars.module.css to add variables to root! */
 }
 
 .styleAccent {
-    border: none;
+    composes: buttonBase;
+    border: 1px solid var(--color-primary);
     border-radius: var(--border-radius-small);
     color: var(--color-background);
     background-color: var(--color-primary);
-
-    transition-property: background-color, color;
-    composes: transitionRegular from 'transitions.module.css';
 }
 
 .sizeSmall {
     font-size: var(--font-small);
+    border-radius: var(--border-radius-small);
 }
 
 .sizeRegular {
     font-size: var(--font-regular);
+    border-radius: var(--border-radius-small);
 }
 
 .sizeBig {
     font-size: var(--font-big);
+    border-radius: var(--border-radius-small);
 }

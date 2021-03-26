@@ -5,13 +5,14 @@
 .inspectors {
     display: grid;
     grid-template-columns: min-content 1fr;
-    margin-top: 2rem;
+    margin-top: var(--spacer-regular);
     gap: var(--spacer-big);
 }
 
 .inspectorBars {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, min-content);
-    gap: var(--spacer-big);
+    grid-auto-rows: min-content;
+    grid-auto-flow: row;
+    gap: var(--spacer-regular);
 }

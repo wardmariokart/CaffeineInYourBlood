@@ -1,6 +1,7 @@
 :global(:root) {
     --color-primary: rgb(237, 230, 199);
     --color-secondary: rgb(128, 96, 75);
+    --color-tertiary: rgb(104, 82, 66);
     --color-background: rgb(79, 66, 57);
 
     --color-primary-opacity: 237, 230, 199;
@@ -18,5 +19,5 @@
 
 .svgPrimary {
     /* Source: https://codepen.io/sosuke/pen/Pjoqqp */
-    filter: invert(93%) sepia(9%) saturate(561%) hue-rotate(8deg) brightness(99%) contrast(92%);
+    filter: brightness(0) invert(93%) sepia(9%) saturate(561%) hue-rotate(8deg) brightness(99%) contrast(92%);
 }

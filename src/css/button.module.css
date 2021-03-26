@@ -1,0 +1,30 @@
+.styleRegular {
+    composes: styleRegular from 'buttons.module.css';
+}
+
+.styleRegular:hover {
+    background-color: var(--button-style-regular-hover-bc);
+    color: var(--button-style-regular-hover-c);
+}
+
+.styleAccent {
+    composes: styleAccent from 'buttons.module.css';
+}
+
+.styleAccent:hover {
+    background-color: var(--button-style-accent-hover-bc);
+    border-color: var(--button-style-accent-hover-bc);
+    color: var(--button-style-accent-hover-c);
+}
+
+.sizeSmall {
+    composes: sizeSmall from 'buttons.module.css';
+}
+
+.sizeRegular {
+    composes: sizeRegular from 'buttons.module.css';
+}
+
+.sizeBig {
+    composes: sizeBig from 'buttons.module.css';
+}

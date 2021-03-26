@@ -2,18 +2,18 @@ import styles from './../css/statement.module.css';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Statement = ({title, body, agreeTip, disagreeTip, setAgree, agree, effect}) => {
+const Statement = ({title, body, agreeTip, disagreeTip, setAgree, bAgree, effect}) => {
 
     return (
-        <article className={styles.statement} onClick={() => setAgree(!agree)}>
+        <article className={`${styles.statement} ${bAgree ? styles.statementAgree : styles.statementDisagree}`} onClick={() => setAgree(!bAgree)}>
             <h3 className={styles.title}>{title}</h3>
             <p className={styles.body}>{body}</p>
             <div className={styles.bottom}>
                 <div className={styles.iconWrapper}>
-                    <div className={`${styles.icon} ${agree ? styles.iconAgree : styles.iconDisagree}`}></div>
+                    <div className={`${styles.icon} ${bAgree ? styles.iconAgree : styles.iconDisagree}`}></div>
                 </div>
-                {<p key={`agree_${agree}`} className={styles.tip}>
-                    {agree ? `${(Math.abs(effect) * 100).toFixed(0)}% ${effect < 0 ? 'shorter' : 'longer'} half life` 
+                {<p key={`agree_${bAgree}`} className={styles.tip}>
+                    {bAgree ? `${(Math.abs(effect) * 100).toFixed(0)}% ${effect < 0 ? 'shorter' : 'longer'} half life` 
                     :
                     'No effect'}
                     </p> }
@@ -25,7 +25,7 @@ const Statement = ({title, body, agreeTip, disagreeTip, setAgree, agree, effect}
 Statement.defaultProps = {
     title: 'Sample Title',
     body: 'Sample body',
-    agreeTip: 'Sample agree tip',
+    agreeTip: 'Sample bAgree tip',
     disagreeTip: 'Sample disagree tip'
 }
 

@@ -1,10 +1,27 @@
 a { 
     text-decoration: none;
+    color: inherit;
 }
 
 nav {
-
     margin: 1rem 0 2.5rem;
+}
+
+.active {
+    position: relative;
+}
+
+.secondaryLink::after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 0%;
+    transition: width 500ms ease-out;    
+}
+
+.active.secondaryLink::after{
+    width: 100%;
+    border-bottom: 1px solid var(--color-primary);
 }
 
 .unstyledList {
@@ -13,9 +30,10 @@ nav {
 
 .navList {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: var(--spacer-regular);
     margin: 0 auto;
 }
 
@@ -25,8 +43,38 @@ nav {
     display: flex;
     align-items: flex-end;
     gap: 0.65rem;
+    margin: 0;
+}
+
+.headerTitle {
+    font-family: var(--font-condensed);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: var(--font-big);
 }
 
 .headerAccent {
-    font-size: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
+
+
+.navSecondary {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.secondaryLink {
+    composes: subtitle from 'typo.module.css';
+    /* composes: uppercase from 'typo.module.css'; */
+    font-family: var(--font-condensed);
+    font-size: var(--font-regular);
+    font-weight: 200;  
+}
+
+
+

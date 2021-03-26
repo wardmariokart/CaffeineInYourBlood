@@ -3,22 +3,23 @@ import Card from './Card.js';
 
 const CoffeeInspector = ({selectedCoffee, setCoffeeType, updateCoffee, setCoffeeSizeMl, setCoffeeCaffeineMgPerMl, addEmptyCoffee, removeCoffee, coffeeTypes}) => {
 
-    const states = {IDLE: 0, INSPECTING: 1};
-    const currentState = selectedCoffee ? states.INSPECTING : states.IDLE;
+    const states = {idle: 0, inspecting: 1};
+    const currentState = selectedCoffee ? states.inspecting : states.idle;
 
     return (
-        <section className={`${styles.inspector}`}>
-            {currentState === states.IDLE && 
-            <>
-                <button className='coffee-inspector__add' onClick={addEmptyCoffee}>
+        <section className={styles.container}>
+            <h2 style={{display: 'none'}}>Coffee Inspector</h2>
+            {currentState === states.idle && 
+            <div className={`${styles.inspector}`}>
+                <button className={styles.emptyAdd} onClick={addEmptyCoffee}>
                     <span>+</span>
-                    <span>add a coffee</span>
                 </button>
-            </>
+            </div>
             }
 
-            { currentState === states.INSPECTING && 
+            { currentState === states.inspecting && 
             <Card 
+                key={selectedCoffee ? selectedCoffee.id : -1}
                 coffee={selectedCoffee}
                 coffeeTypes={coffeeTypes}
                 updateCoffee={updateCoffee}

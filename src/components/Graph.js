@@ -7,10 +7,8 @@ import CaffeineGraph from './CaffeineGraph.js';
 
 const Graph = ({pxPerMin, setScrollPx, scrollPx, scrollableOffsetMin, scrollableTimeMs, coffees, selectedCoffee, selectCoffeeById, frameWidthPx, startDate, endDate, halfLifeMin}) => {
 
-
-
-    const [mouseGraphPosition, setMouseGraphPosition] = useState({x: 0, y: 0});
-    const [bMouseOnGraph, setBMouseOnGraph] = useState(false);
+    const [mouseCanvasPosition, setMouseCanvasPosition] = useState({x: 0, y: 0});
+    const [bMouseOnCanvas, setBMouseOnCanvas] = useState(false);
 
     const scrollableWidthPx = scrollableTimeMs / TIME.msInMinute * pxPerMin;
 
@@ -19,34 +17,18 @@ const Graph = ({pxPerMin, setScrollPx, scrollPx, scrollableOffsetMin, scrollable
         const out = pxPerMin * positionMinutes;
         return out;
     };
-
-
-/*     const coffeeBubbles = coffees.map((coffee, id) => {
-        const d = new Date(); 
-        d.setHours(coffee.hour, coffee.minute,0,0);
-        const bSelected = coffee.id === selectedCoffee.id;    
-        return <div 
-            key={id} 
-            className={`${styles.bubble} ${bSelected ? styles.bubbleSelected : ''}`} 
-            style={{left: `${dateToPositionPx(d)}px`}}
-            onClick={() => selectCoffeeById(coffee.id)}>
-
-            </div>
-    }); */
-
     
     const handleScroll = (e) => {
         const updated = e.currentTarget.scrollLeft; 
-        setMouseGraphPosition({...mouseGraphPosition, x: mouseGraphPosition.x + updated - scrollPx});
+        setMouseCanvasPosition({...mouseCanvasPosition, x: mouseCanvasPosition.x + updated - scrollPx});
         setScrollPx(updated);
     }
 
     const handleMouseOver = e => {
-
         const graphRect = e.currentTarget.getBoundingClientRect();
         const graphVWPosition= {x: graphRect.left, y: graphRect.top}; // VW = view space
         const clone = {x: e.clientX - graphVWPosition.x + scrollPx, y: e.clientY - graphVWPosition.y};
-        setMouseGraphPosition(clone);
+        setMouseCanvasPosition(clone);
     }
 
     return (
@@ -54,19 +36,21 @@ const Graph = ({pxPerMin, setScrollPx, scrollPx, scrollableOffsetMin, scrollable
             className={styles.frame}
             onScroll={handleScroll}
             onMouseMove={handleMouseOver}
-            onMouseEnter={() => {console.log('enter event'); setBMouseOnGraph(true)}}
-            onMouseLeave={() => setBMouseOnGraph(false)}>
+            onMouseEnter={() => setBMouseOnCanvas(true)}
+            onMouseLeave={() => setBMouseOnCanvas(false)}>
             <CaffeineGraph 
                 className={styles.scrollable} 
                 style={{left: `${scrollableOffsetMin * pxPerMin}px`}}
                 scrollableWidthPx={scrollableWidthPx}
-                scrollableHeightPx={320}    
+                scrollableHeightPx={250}    
                 coffees={coffees}
+                selectedCoffeeId={selectedCoffee ? selectedCoffee.id : null}
+                selectCoffeeById={selectCoffeeById}
                 pxPerMin={pxPerMin}
                 startDate={startDate}
                 endDate={endDate}
-                mouseGraphPosition={mouseGraphPosition}
-                bMouseOnGraph={bMouseOnGraph}
+                mouseCanvasPosition={mouseCanvasPosition}
+                bMouseOnCanvas={bMouseOnCanvas}
                 halfLifeMin={halfLifeMin}
             >
             </CaffeineGraph> 

@@ -1,0 +1,30 @@
+.tag {
+    composes: primaryText from 'typo.module.css';
+    font-size: var(--font-small);
+    position: absolute;
+    background-color: var(--color-background);
+    top: var(--spacer-tiny);
+    transition-property: left;
+    composes: transitionSlow from 'transitions.module.css';
+}
+
+.tagBubble {
+    /* border: 1px solid var(--color-primary); */
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border-radius: 0.1rem;
+    padding: var(--spacer-tiny) var(--spacer-small);
+}
+
+/* .tagBubble::after {
+    content: '';
+    position: absolute;
+    --arrow-size: 4px;
+    left: calc(50% - var(--arrow-size));
+    top: calc(-2 * var(--arrow-size));
+    background-color: transparent;
+    
+    border-right: var(--arrow-size) solid transparent;
+    border-left: var(--arrow-size) solid transparent;
+    border-bottom: calc(var(--arrow-size) * 2)solid var(--color-primary);
+} */

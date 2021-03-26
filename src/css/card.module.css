@@ -1,11 +1,40 @@
-.card {
+.container {
     composes: mainShadow from 'shadows.module.css';
-    display: grid;
-    grid-template: min-content min-content min-content / 1fr;
-    row-gap: 1rem;
-    padding: 1rem; /* Change */
-    background-color: var(--color-secondary);
     height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    position: relative;
+    overflow: hidden; /* hides shine */
+}
+
+.card {
+    display: grid;
+   /*  grid-template: min-content min-content min-content / 1fr;
+    row-gap: 1rem; */
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-regular);
+    
+    padding: var(--spacer-regular); /* Change */
+    background-color: var(--color-secondary);
+    flex: 1;
+}
+
+/* ________________________________________________________________________  Header */
+
+.header {
+    background-color: var(--color-tertiary);
+    color: var(--color-primary);
+    width: 100%;
+    padding: var(--spacer-small) var(--spacer-regular);
+
+    /* HIER */
+}
+
+.headerTitle {
+    composes: subTitle from 'typo.module.css';
+    margin: 0;
 }
 
 /* ________________________________________________________________________  Top */
@@ -17,6 +46,7 @@
 .cardTopFrame{
     /* composes: detailShadow from 'shadows.module.css'; */
     margin-right: 1rem;
+    width: 4rem;
     background-color: var(--color-background);
     border-radius: 3rem 3rem 0 0;
     padding: 1.5rem 0.45rem 0.8rem;
@@ -25,26 +55,43 @@
 
 .cardTopFrameIcon {
     composes: svgPrimary from 'color.module.css';
-    width: 1.8rem;
+    width: 100%;
     height: auto;
 }
 
-.cardTopMoment > p {
-    margin: 0;
+.cardTopMomentWrapper {
+    overflow: hidden;
+}
+
+.inCreation .cardTopMoment {
+    transform: translateX(-100%);
+}
+
+.cardTopMoment{
+    transform: translateX(0%);
+    transition-property: transform;
+    composes: transitionSlow from 'transitions.module.css';
+    transition-duration: 400ms;
 }
 
 .cardTopMomentTitle {
     composes: titleDisplay from 'typo.module.css';
+    margin-bottom: var(--spacer-small);
+    margin-top: var(--spacer-tiny);
 }
 
 .cardTopMomentTime {
     composes: primaryText from 'typo.module.css';
 }
 
+
+
 /* ________________________________________________________________________  Middle */
 .cardMiddleTable {
     display: grid;
-    grid-template-columns: 6rem 4rem 1fr;
+    grid-template-columns: min-content min-content 1fr;
+    row-gap: var(--spacer-tiny);
+    column-gap: var(--spacer-regular);
 }
 
 /* Fake select box */
@@ -73,7 +120,7 @@
 
 /* Real select element */
 .select {
-    composes: title from 'typo.module.css';
+    composes: subTitle from 'typo.module.css';
     font-size: var(--font-regular);
     padding: 0.3rem 1rem 0.5rem;
     margin: 0;
@@ -82,10 +129,6 @@
     background-color: transparent;
     border: none;
     position: relative;
-    /* border-bottom: 1px solid var(--color-primary); */
-}
-
-.option {
 }
 
 .tableButtons {
@@ -119,18 +162,61 @@
 /* ________________________________________________________________________  Bottom */
 
 .cardBottom {
-    margin-top: 2rem;
+    flex: 1;
     display: flex;
     justify-content: flex-end;
+    align-items: flex-end;
     gap: var(--spacer-small);
 }
 
-.cardBottomButton {
+.cardBottomButtonRemove {
     composes: styleRegular from 'buttons.module.css';
+    composes: sizeRegular from 'buttons.module.css';
+}
+
+.cardBottomButtonNew {
+    composes: styleAccent from 'buttons.module.css';
     composes: sizeRegular from 'buttons.module.css';
 }
 
 .cardBottomButton:hover {
     background-color: var(--button-style-regular-hover-bc);
     color: var(--button-style-regular-hover-c);
+}
+
+
+/* ________________________________________________________________________  Shine */
+
+.shine {
+    position: absolute;
+    --shine-scale: -300%;
+    top: var(--shine-scale);
+    bottom: var(--shine-scale);
+    left: var(--shine-scale);
+    right: var(--shine-scale);
+    /* background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 48%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 52%, rgba(255,255,255,0) 100%); */
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(237,230,199,0) 48%, rgba(237,230,199,1) 49%, rgba(237,230,199,0) 53%, rgba(238,232,203,1) 54%, rgba(239,234,206,1) 57%, rgba(240,235,208,0) 65%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(237,230,199,0) 48,7%, rgba(237,230,199,1) 49%, rgba(237,230,199,0) 50.5%, rgba(238,232,203,1) 51%, rgba(239,234,206,1) 51.5%, rgba(240,235,208,0) 55%, rgba(255,255,255,0) 100%);
+    transform: translateX(25%); /* Offscreen */
+    pointer-events: none;
+    mix-blend-mode: hard-light;
+    z-index: 2;
+}
+
+.shineAnimation {
+    animation-name: shine-anim;
+    animation-duration: 600ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: backwards;
+}
+@keyframes shine-anim {
+
+    0%{ 
+        transform: translateX(15%);
+        opacity: 0}
+    15% {opacity:  0.2}
+    
+    50% {opacity: 0.2;}
+    100%{ transform: translateX(-25%);
+            opacity: 0;}
 }
