@@ -1,8 +1,6 @@
-import iconEspresso from './../svg/espresso.svg';
+import iconRegular from './../svg/espresso.svg';
 import iconFancy from './../svg/doppio.svg';
-import iconEnergy from './../svg/energy-drink.svg';
-import iconTea from './../svg/tea.svg';
-import iconLatte from './../svg/moka-pot.svg';
+import iconEnergy from './../svg/moka-pot.svg';
 import iconCapsuleLungo from './../svg/capsule_lungo.svg';
 import iconCapsuleEspresso from './../svg/capsule.svg';
 
@@ -19,7 +17,7 @@ const BEVERAGETYPES = [
         name: 'espresso',
         sizeMl: 30,
         caffeineMgPerMl: 1.33,
-        imagePath: iconEspresso,
+        imagePath: iconRegular,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NORMAL
@@ -29,7 +27,7 @@ const BEVERAGETYPES = [
         name: 'doppio',
         sizeMl: 60,
         caffeineMgPerMl: 1.33,
-        imagePath: iconEspresso,
+        imagePath: iconRegular,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NORMAL
@@ -39,7 +37,7 @@ const BEVERAGETYPES = [
         name: 'cappuccino',
         sizeMl: 150,
         caffeineMgPerMl: 0.41,
-        imagePath: iconEspresso,
+        imagePath: iconRegular,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NORMAL
@@ -49,7 +47,7 @@ const BEVERAGETYPES = [
         name: 'latte',
         sizeMl: 240,
         caffeineMgPerMl: 0.3,
-        imagePath: iconEspresso,
+        imagePath: iconRegular,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NORMAL
@@ -119,7 +117,7 @@ const BEVERAGETYPES = [
         name: 'green tea',
         sizeMl: 240,
         caffeineMgPerMl: 0.125,
-        imagePath: iconEspresso,
+        imagePath: iconRegular,
         deltaSizeMl: 20,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NONCOFEE
@@ -129,7 +127,7 @@ const BEVERAGETYPES = [
         name: 'black tea',
         sizeMl: 240,
         caffeineMgPerMl: 0.2,
-        imagePath: iconEspresso,
+        imagePath: iconRegular,
         deltaSizeMl: 20,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NONCOFEE
@@ -140,7 +138,7 @@ const BEVERAGETYPES = [
         name: 'red bull',
         sizeMl: 250,
         caffeineMgPerMl: 0.3,
-        imagePath: iconLatte,
+        imagePath: iconEnergy,
         deltaSizeMl: 50,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NONCOFEE
