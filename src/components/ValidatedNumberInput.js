@@ -1,7 +1,7 @@
 import styles from './../css/validatedNumberInput.module.css'; 
 import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { modulo, leadingZeros } from '../helpers.js';
+import { modulo, leadingZeros } from '../helpers/helpers.js';
 
 const ValidatedNumberInput = ({value, setValue, maxValue, minValue, placeholder, onFinished, inputRef}) => {
 

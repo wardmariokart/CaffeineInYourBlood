@@ -31,6 +31,7 @@ body {
     font-size: var(--font-medium);
     text-transform: uppercase;
     font-weight: normal;
+    margin-bottom: var(--spacer-small);
 }
 
 .subTitle {

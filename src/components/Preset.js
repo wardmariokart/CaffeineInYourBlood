@@ -1,6 +1,6 @@
 import styles from './../css/preset.module.css';
 import PropTypes from 'prop-types';
-import { shortenString } from '../helpers.js';
+import { leadingZeros, shortenString } from '../helpers/helpers.js';
 
 const Preset = ({title, coffees, bActive, selectPreset, deselectPreset, setRouteHome}) => {
 
@@ -9,7 +9,7 @@ const Preset = ({title, coffees, bActive, selectPreset, deselectPreset, setRoute
             <img className={styles.coffeeIcon} src={coffee.imagePath} alt={`${coffee.name} icon`}></img>
             <div>
                 <p className={styles.coffeeTitle}>{shortenString(coffee.name, 10)}</p>
-                <p className={styles.coffeeTime}>10:55</p>
+                <p className={styles.coffeeTime}>{`${leadingZeros(coffee.consumedAt.getHours(), 2)}:${leadingZeros(coffee.consumedAt.getMinutes(), 2)}`}</p>
             </div>
         </div>
     ));

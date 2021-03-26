@@ -1,20 +1,17 @@
 import styles from './../css/home.module.css';
 import  { useState } from 'react';
+import { TIME } from '../helpers/helpers.js';
+
+// Components
 import CoffeeInspector from './../components/CoffeeInspector.js';
 import Overview from './../components/Overview.js';
-import SleepInspector from './../components/SleepInspector.js';
 import Clearance from './../components/Clearance.js';
 import DailyCaffeine from './../components/DailyCaffeine.js';
-import { TIME } from './../helpers.js';
 
 const Home = ({coffees, coffeeTypes, selectedCoffee, removeCoffee, addEmptyCoffee, setCoffeeSizeMl, setCoffeeCaffeineMgPerMl, updateCoffee, setCoffeeType, selectCoffeeById, statementStates, setStatementState}) => {
-
   
   /* ___________________________________________________________ CAFFEINE HALF LIFE  */
   const [halfLifeMin, setHalfLifeMin] = useState(6 * TIME.minutesInHour);
-
-  const [sleepFrom, setSleepFrom] = useState({hours: 23, minutes: 15});
-  const [sleepUntil, setSleepUntil] = useState({hours: 7, minutes: 0});
 
   return (
     <div className={styles.home}>
@@ -23,8 +20,6 @@ const Home = ({coffees, coffeeTypes, selectedCoffee, removeCoffee, addEmptyCoffe
           selectedCoffee={selectedCoffee}
           coffees={coffees.filter(filter => !filter.bInCreation)}
           selectCoffeeById={selectCoffeeById}
-          sleepFrom={sleepFrom}
-          sleepUntil={sleepUntil}
           halfLifeMin={halfLifeMin}
         />
 

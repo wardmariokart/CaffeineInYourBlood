@@ -1,33 +1,31 @@
+import { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { ROUTES } from './consts/index.js';
+import { randomElement, randomRangeInteger } from './helpers/helpers.js';
+import coffeeTypes from './assets/data/beverageTypes.js';
+import styles from './css/app.module.css';
+
+// components
 import Nav from './components/Nav.js';
 import Home from './pages/Home.js';
-import About from './pages/About.js';
 import Presets from './pages/Presets.js';
-import styles from './css/app.module.css';
-import { useState } from 'react';
-import { randomElement } from './helpers.js';
-import coffeeTypes from './assets/data/beverageTypes.js';
-
-import iconEspresso from './assets/svg/espresso.svg';
-import iconDoppio from './assets/svg/doppio.svg';
-import iconLatte from './assets/svg/moka-pot.svg';
-import { random } from 'animejs';
 
 const App = () => {
 
   const exampleCoffee = {id: undefined, baseTypeId: undefined, name: undefined, caffeineMgPerMl: undefined, sizeMl: undefined, consumedAt: undefined, deltaSizeMl: undefined};
 
   /* ___________________________________________________________ COFFEES  */
-  const [coffees, setCoffees] = useState([]);
+  const [coffees, setCoffees] = useState([]); 
 
   const addEmptyCoffee = () => {
     const coffeesClone = [...coffees];
 
-    const randomHour = Math.floor(Math.random() * 10) + 6;
-    const randomMinute = Math.floor(Math.random() * 59);
+    const hourRange = {min: 6, max: 12};
+    const minuteRange = {min: 0, max: 59};
+    const randomHour = randomRangeInteger(hourRange.min, hourRange.max);
+    const randomMinute = randomRangeInteger(minuteRange.min, minuteRange.max);
     const date = new Date();
-    date.setHours(randomHour, randomMinute,0,0);
+    date.setHours(randomHour, randomMinute, 0, 0);
   
     const newCoffee = {id: coffeesClone.length + 1, bInCreation: true, consumedAt: date};
     coffeesClone.push(newCoffee);
@@ -49,12 +47,6 @@ const App = () => {
       if (bValidCoffee) {
         const id = updatedCoffees.length + 1;
         updatedCoffees.push({...coffee, id});
-      } else {
-        
-        console.log('--Tried to add a coffee but it was deemed invalid. Missing fields:')
-        console.log({coffee});
-        console.log({missingFields});
-        console.log('--end of error');
       }
     });
 
@@ -176,31 +168,29 @@ const App = () => {
   const loadPreset = (preset) => {
     // Update coffees.
     replaceCoffees(preset.coffees);
+
     // Update selected coffee
     if(preset.coffees.length > 0) {
       const selectId = preset.selectedCoffeeId ?? 1;
       selectCoffeeById(selectId);
     }
-    // Update statements
+    
+    // Update statements (affects clearance rate)
     setStatementStates(preset.statementStates);
-
-    setActivePreset(preset); // preset is never altered, so should it be copied?
+    setActivePreset(preset);
   };
 
   const resetCoffeeStates = () => {
     replaceCoffees([]);
     setSelectedCoffeeId(null);
     setActivePreset(null);
-    // Statements
   };
   /* ___________________________________________________________ STATEMENTS */
+
   // {statementId: number, bAgree:bool}
   const [statementStates, setStatementStates] = useState([]);
   const setStatementState = (statementId, bAgree) => {
     // check if in array
-
-    console.log(`Call : statementId:${statementId}. bAgree${bAgree}`);
-
     let clone = [...statementStates];
 
     const index = clone.findIndex(find => find.statementId === statementId);
@@ -211,9 +201,7 @@ const App = () => {
     } else {
       clone.push({statementId, bAgree});
     }
-
     clone = clone.filter(el => el.bAgree);
-    console.log({clone});
     setStatementStates(clone);
   }
 
@@ -226,12 +214,9 @@ const App = () => {
     <div className={styles.app}>
       <Nav/>
       <Switch>
-        <Route path={ROUTES.ABOUT}>
-          <About/>
-        </Route>
 
         <Route path={ROUTES.PRESETS}>
-          <Presets
+          <Presets className={styles.main}
             activePreset={activePreset}
             loadPreset={loadPreset}
             setRouteHome={() => history.push(ROUTES.HOME)}
@@ -240,14 +225,15 @@ const App = () => {
             createCoffeeFromTypeId={createCoffeeFromTypeId}
           />
         </Route>
+
         <Route path={ROUTES.HOME}>
-          <Home
+          <Home className={styles.main}
             coffees={coffees}
             selectCoffeeById={selectCoffeeById}
             selectedCoffee={selectedCoffee()}
             coffeeTypes={coffeeTypes}
             removeCoffee={(coffee)                                  => {setActivePreset(null); removeCoffee(coffee);}}
-            setCoffeeSizeMl={(coffeeId, sizeMl)                      => {setActivePreset(null); setCoffeeSizeMl(coffeeId, sizeMl);}}
+            setCoffeeSizeMl={(coffeeId, sizeMl)                     => {setActivePreset(null); setCoffeeSizeMl(coffeeId, sizeMl);}}
             setCoffeeCaffeineMgPerMl={(coffeeId, caffeineMgPerMl)   => {setActivePreset(null); setCoffeeCaffeineMgPerMl(coffeeId, caffeineMgPerMl);}}
             setCoffeeType={(coffee, typeId)                         => {setActivePreset(null); setCoffeeType(coffee, typeId);}}
             updateCoffee={(coffeeId, updatedProperties)             => {setActivePreset(null); updateCoffee(coffeeId, updatedProperties);}}
@@ -256,6 +242,7 @@ const App = () => {
             statementStates={statementStates}
           />
         </Route>
+
       </Switch>
       <div className={styles.footer}></div>
     </div>

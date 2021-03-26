@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import styles from './../css/card.module.css';
 import TimeInput from './TimeInput.js';
 import CardTableRow from './CardTableRow.js';
-import { leadingZeros, shortenString } from '../helpers.js'
+import { leadingZeros, shortenString } from '../helpers/helpers.js'
 import Button, {buttonSizes, buttonStyles} from './Button.js';
 import { BEVERAGECATEGORIES } from '../assets/data/beverageTypes'
 
@@ -12,13 +12,12 @@ const Card = ({coffee, coffeeTypes, setCoffeeType, updateCoffee, setCoffeeSizeMl
 
     const handleChangeOption = (e) => {
         const typeId = parseInt(e.currentTarget.value);
-        console.log(`new type: ${typeId}`);
         setCoffeeType(coffee, typeId);
     }
 
 
     const filterByCategory = (beverages, category) => beverages.filter(filter => filter.category === category);
-    const mapToOptions = (beverages) => beverages.map(beverage => <option key={`type-${beverage.baseTypeId}`}value={beverage.baseTypeId}>{beverage.name}</option>);
+    const mapToOptions = (beverages) => beverages.map(beverage => <option key={`type-${beverage.baseTypeId}`} value={beverage.baseTypeId}>{beverage.name}</option>);
     
     const optionInstructions = [
         {blockName: 'Brewed'        ,filterCategory: BEVERAGECATEGORIES.NORMAL},
@@ -27,12 +26,12 @@ const Card = ({coffee, coffeeTypes, setCoffeeType, updateCoffee, setCoffeeSizeMl
         {blockName: 'Non-coffees'   ,filterCategory: BEVERAGECATEGORIES.NONCOFEE}];
 
     let jsxOptions = [];
-        jsxOptions.push(<option className={styles.option} disabled value={false}>Select a drink</option>)
+    jsxOptions.push(<option className={styles.option} key='option-default' disabled value={false}>Select a drink</option>)
     optionInstructions.forEach(instruction => {
-        jsxOptions.push(<option  className={styles.option} disabled>{`──── ${instruction.blockName} ────`}</option>);
+        jsxOptions.push(<option className={styles.option} key={`option-spacer-${instruction.blockName}`} disabled>{`──── ${instruction.blockName} ────`}</option>);
         const filtered = filterByCategory(coffeeTypes, instruction.filterCategory);
         jsxOptions.push(mapToOptions(filtered));
-        jsxOptions.push(<option disabled></option>)
+        jsxOptions.push(<option key={`option-spacer-disabled-${instruction.blockName}`} disabled></option>)
     });
 
     const handleUpdateHours = (hours) => {

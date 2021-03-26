@@ -32,9 +32,7 @@ const TimeInput = ({hours, setHours, minutes, setMinutes}) => {
                 setValue={setMinutes}
             />
         </div>
-
-    )
-
+    );
 }
 
 export default TimeInput;

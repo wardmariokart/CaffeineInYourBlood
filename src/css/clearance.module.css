@@ -1,4 +1,38 @@
-.clearance { 
+.title {
+    composes: titleDisplay from 'typo.module.css';
+    margin-bottom: 0;
+}
+.head {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: var(--spacer-regular);
+    gap: var(--spacer-regular);
+}
+.strikethrough {
+    position: relative;
+    overflow: hidden;
+    opacity: 0.5;
+}
+
+.strikethrough::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-primary);
+    top: 60%;
+    transform: rotate(15deg);
+    
+}
+
+.arrow::after {
+    content: '\2192';
+    font-size: 2rem;
+}
+
+.halfLifeNumber {
+    font-size: 3rem;
 }
 
 .statements {

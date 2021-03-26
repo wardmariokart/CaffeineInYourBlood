@@ -70,11 +70,7 @@ nav {
 
 .secondaryLink {
     composes: subtitle from 'typo.module.css';
-    /* composes: uppercase from 'typo.module.css'; */
     font-family: var(--font-condensed);
     font-size: var(--font-regular);
     font-weight: 200;  
 }
-
-
-

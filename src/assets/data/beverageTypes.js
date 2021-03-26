@@ -1,6 +1,10 @@
 import iconEspresso from './../svg/espresso.svg';
-import iconDoppio from './../svg/doppio.svg';
+import iconFancy from './../svg/doppio.svg';
+import iconEnergy from './../svg/energy-drink.svg';
+import iconTea from './../svg/tea.svg';
 import iconLatte from './../svg/moka-pot.svg';
+import iconCapsuleLungo from './../svg/capsule_lungo.svg';
+import iconCapsuleEspresso from './../svg/capsule.svg';
 
 export const BEVERAGECATEGORIES = {
     NORMAL: 0,
@@ -25,7 +29,7 @@ const BEVERAGETYPES = [
         name: 'doppio',
         sizeMl: 60,
         caffeineMgPerMl: 1.33,
-        imagePath: iconDoppio,
+        imagePath: iconEspresso,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NORMAL
@@ -35,7 +39,7 @@ const BEVERAGETYPES = [
         name: 'cappuccino',
         sizeMl: 150,
         caffeineMgPerMl: 0.41,
-        imagePath: iconDoppio,
+        imagePath: iconEspresso,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NORMAL
@@ -45,7 +49,7 @@ const BEVERAGETYPES = [
         name: 'latte',
         sizeMl: 240,
         caffeineMgPerMl: 0.3,
-        imagePath: iconDoppio,
+        imagePath: iconEspresso,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NORMAL
@@ -55,7 +59,7 @@ const BEVERAGETYPES = [
         name: 'espresso (capsule)',
         sizeMl: 30,
         caffeineMgPerMl: 2,
-        imagePath: iconEspresso,
+        imagePath: iconCapsuleEspresso,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.CAPSULE
@@ -65,7 +69,7 @@ const BEVERAGETYPES = [
         name: 'lungo (capsule)',
         sizeMl: 60,
         caffeineMgPerMl: 0.88,
-        imagePath: iconEspresso,
+        imagePath: iconCapsuleLungo,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.CAPSULE
@@ -75,7 +79,7 @@ const BEVERAGETYPES = [
         name: 'kazaar (limit edition)',
         sizeMl: 30,
         caffeineMgPerMl: 4.16,
-        imagePath: iconEspresso,
+        imagePath: iconCapsuleEspresso,
         deltaSizeMl: 5,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.CAPSULE
@@ -85,7 +89,7 @@ const BEVERAGETYPES = [
         name: 'vanilla latte™',
         sizeMl: 480,
         caffeineMgPerMl: 0.35,
-        imagePath: iconDoppio,
+        imagePath: iconFancy,
         deltaSizeMl: 120,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.STARBUCKS
@@ -95,7 +99,7 @@ const BEVERAGETYPES = [
         name: 'pumpkin spice latte™',
         sizeMl: 480,
         caffeineMgPerMl: 0.3125,
-        imagePath: iconDoppio,
+        imagePath: iconFancy,
         deltaSizeMl: 120,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.STARBUCKS
@@ -105,7 +109,7 @@ const BEVERAGETYPES = [
         name: 'iced white chocolate mocha™',
         sizeMl: 480,
         caffeineMgPerMl: 0.3125,
-        imagePath: iconDoppio,
+        imagePath: iconFancy,
         deltaSizeMl: 120,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.STARBUCKS
@@ -115,7 +119,7 @@ const BEVERAGETYPES = [
         name: 'green tea',
         sizeMl: 240,
         caffeineMgPerMl: 0.125,
-        imagePath: iconDoppio,
+        imagePath: iconEspresso,
         deltaSizeMl: 20,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NONCOFEE
@@ -125,7 +129,7 @@ const BEVERAGETYPES = [
         name: 'black tea',
         sizeMl: 240,
         caffeineMgPerMl: 0.2,
-        imagePath: iconDoppio,
+        imagePath: iconEspresso,
         deltaSizeMl: 20,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NONCOFEE
@@ -136,7 +140,7 @@ const BEVERAGETYPES = [
         name: 'red bull',
         sizeMl: 250,
         caffeineMgPerMl: 0.3,
-        imagePath: iconEspresso,
+        imagePath: iconLatte,
         deltaSizeMl: 50,
         deltaCaffeineMgPerMl: 0.1,
         category: BEVERAGECATEGORIES.NONCOFEE

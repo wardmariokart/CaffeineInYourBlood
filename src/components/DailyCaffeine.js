@@ -1,38 +1,21 @@
 import styles from './../css/dailyCaffeine.module.css';
-import { useState, useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import useRefSize from '../hooks/useRefSize.js';
 import AxisTag from './AxisTag.js';
 
-const DailyCaffeine = ({coffees, dailyLimitMg}) => {
+const DailyCaffeine = ({coffees, dailyLimitMg, maxFillPercentage}) => {
     
     // 'Position' is in percentage relative to full bar width
     // 'Value' is the actual mg
     const totalCaffeineMg = coffees.reduce((acc, coffee) => acc + coffee.sizeMl * coffee.caffeineMgPerMl, 0);
     
-    const occupiedBarPosition = 0.85;
-    const maxPositionLimit = 0.75; 
-    const maxPositionTotal = 0.9; 
-
-    const maxValueByLimit = dailyLimitMg * maxPositionLimit; 
-    const maxValueByTotal = totalCaffeineMg * maxPositionTotal;
-    //const maxValueMg = ((1 - occupiedBarPosition) / occupiedBarPosition + 1) * maxValueByLimit > maxValueByTotal ? daily 
-    // todo!!
-
-    const maxValueMg = ((1 - occupiedBarPosition) / occupiedBarPosition + 1) * Math.max(totalCaffeineMg, dailyLimitMg);
+    const maxValueMg = ((1 - maxFillPercentage) / maxFillPercentage + 1) * Math.max(totalCaffeineMg, dailyLimitMg);
     const fillPosition = totalCaffeineMg / maxValueMg;
     const limitPosition = dailyLimitMg / maxValueMg;
 
     const container = useRef();
     const containerSize = useRefSize(container);
-    console.log({containerSize});
 
-    const markIntervalMg = 10;
-    const markIntervalPx = markIntervalMg/maxValueMg * containerSize.widthPx;
-    console.log({markIntervalPx});
-    const bigMarkInteval = 5; // Every 4th mark is big
-    let marks = Array(Math.floor(containerSize.widthPx/markIntervalPx) + 1).fill(null);
-    marks = marks.map((e, i) => <div key={i} className={i % bigMarkInteval === 0 ? styles.markBig : styles.mark} style={{left: `${markIntervalPx * i}px`}}></div>);
-    
     return (
         <section ref={container}>
             <div style={{width: `100%`}}>
@@ -72,7 +55,8 @@ const DailyCaffeine = ({coffees, dailyLimitMg}) => {
 
 DailyCaffeine.defaultProps = {
     coffees: [],
-    dailyLimitMg: 250
+    dailyLimitMg: 250,
+    maxFillPercentage: 0.85
 }
 
 export default DailyCaffeine;

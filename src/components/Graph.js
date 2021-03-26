@@ -1,22 +1,16 @@
-import { useState } from 'react';
+import { useState, useRef, useLayoutEffect } from 'react';
 import styles from '../css/graph.module.css';
-import { TIME } from '../helpers';
-import GraphP5 from './GraphP5.js';
+import { TIME } from '../helpers/helpers';
 import CaffeineGraph from './CaffeineGraph.js';
 
 
-const Graph = ({pxPerMin, setScrollPx, scrollPx, scrollableOffsetMin, scrollableTimeMs, coffees, selectedCoffee, selectCoffeeById, frameWidthPx, startDate, endDate, halfLifeMin}) => {
+const Graph = ({pxPerMin, setScrollPx, scrollPx, scrollableOffsetMin, scrollableTimeMs, coffees, selectedCoffee, selectCoffeeById, startDate, endDate, halfLifeMin}) => {
 
+    const frame = useRef();
     const [mouseCanvasPosition, setMouseCanvasPosition] = useState({x: 0, y: 0});
     const [bMouseOnCanvas, setBMouseOnCanvas] = useState(false);
 
     const scrollableWidthPx = scrollableTimeMs / TIME.msInMinute * pxPerMin;
-
-    const dateToPositionPx = (date) => {
-        const positionMinutes = date.getHours() * TIME.minutesInHour + date.getMinutes();
-        const out = pxPerMin * positionMinutes;
-        return out;
-    };
     
     const handleScroll = (e) => {
         const updated = e.currentTarget.scrollLeft; 
@@ -31,9 +25,19 @@ const Graph = ({pxPerMin, setScrollPx, scrollPx, scrollableOffsetMin, scrollable
         setMouseCanvasPosition(clone);
     }
 
+    useLayoutEffect(() => {
+        if (frame.current){
+            frame.current.scrollRight = 300;
+            console.log('setScroll');
+        }
+    }, [frame])
+
+
+
     return (
         <div 
             className={styles.frame}
+            ref={frame}
             onScroll={handleScroll}
             onMouseMove={handleMouseOver}
             onMouseEnter={() => setBMouseOnCanvas(true)}
@@ -57,7 +61,5 @@ const Graph = ({pxPerMin, setScrollPx, scrollPx, scrollableOffsetMin, scrollable
         </div>
     );
 }
-
-
 
 export default Graph;

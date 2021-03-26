@@ -1,6 +1,5 @@
 import styles from '../css/axisTag.module.css';
 import { useLayoutEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 
 const AxisTag = ({tag, positionPercent, axisWidthPx, bBubble}) => {
     

@@ -1,14 +1,23 @@
-import { clamp, TIME, leadingZeros, mapRange } from '../helpers.js';
+import { clamp, TIME, leadingZeros, mapRange } from '../helpers/helpers.js';
 
 const caffeineSketch = (p) => {
 
     const colors = {
 
-        brownLight: p.color(147,112,90),
-        brownMedium: p.color(99, 83, 73),
-        brownDark:  p.color(79, 66, 57),
-        sand:       p.color(237,230,199),
+        brownLight:     p.color(147,112,90),
+        brownMedium:    p.color(99, 83, 73),
+        brownDark:      p.color(79, 66, 57),
+        brownDarkest:   p.color(56, 49, 44),
+        sand:           p.color(237,230,199),
     };
+
+    const caffeineTips = [
+        {fromMg: 100, tip: 'Shaky hands'},
+        {fromMg: 50, tip: 'Peak performance'},
+        {fromMg: 10, tip: 'Noticable'},
+        {fromMg: 0, tip: 'Neglectable'},
+    ];
+
     const bDeselectOnClickNone = false;
 
     let canvas;
@@ -25,6 +34,7 @@ const caffeineSketch = (p) => {
     let bMouseOnCanvas = false;
     let mouseCanvasPosition = {x: 0, y: 0};
     let backgroundImage = null;
+    let pxPerCaffeineMg = 0;
 
     // example: {url: '...', loadedImage: ...}
     const loadedImages = [];
@@ -46,9 +56,9 @@ const caffeineSketch = (p) => {
             iconColor: colors.sand,
         },
         inactive: {
-            widthPx: 20,
-            heightPx: 30,
-            cornerRadiusPx: 20,
+            widthPx: 25,
+            heightPx: 35,
+            cornerRadiusPx: 12.5,
             
             marginBottomPx: 10,
             paddingBottomPx: 6,
@@ -61,7 +71,7 @@ const caffeineSketch = (p) => {
             iconColor: colors.sand,
         },
         hover: {
-            backgroundColor: colors.brownMedium,
+            backgroundColor: colors.brownDarkest,
         }
     };
 
@@ -87,11 +97,11 @@ const caffeineSketch = (p) => {
         drawBackground();
 
         const [vertices, peakVertex] = graphVertices();
-        const peakCaffeineGraphHeight = 0.75; // Peak caffeine should be displayed at 75% of the y-axis
+        const peakCaffeineGraphHeight = 0.85; // Peak caffeine should be displayed at 75% of the y-axis
 
         const recommendedLimitMg = 250; // Do this via props
         const graphMaxCaffeineMg = Math.max(peakVertex.caffeineMg * 1 / peakCaffeineGraphHeight, recommendedLimitMg);
-        const pxPerCaffeineMg = height / graphMaxCaffeineMg // y-axis scale
+        pxPerCaffeineMg = height / graphMaxCaffeineMg // y-axis scale
 
         vertices.forEach(vertex => {
             vertex.y = (height - vertex.caffeineMg * pxPerCaffeineMg);
@@ -109,7 +119,6 @@ const caffeineSketch = (p) => {
         // Called before p.setup AND on rerende / prop change
         coffees = newProps.coffees;
         loadCoffeeImages();
-        console.log('newprops');
         selectedCoffeeId = newProps.selectedCoffeeId;
         selectCoffeeById = newProps.selectCoffeeById;
         pxPerMin = newProps.pxPerMin;
@@ -146,8 +155,8 @@ const caffeineSketch = (p) => {
     }
 
     const createBackgroundImage = () => {
-        const sunset = {hour: 19, minute: 30};
-        const sunrise = {hour: 7, minute: 0};
+        const sunset = {hour: 20, minute: 0};
+        const sunrise = {hour: 7, minute: 30};
         const durationMs = 90 * TIME.msInMinute;
     
 
@@ -195,31 +204,20 @@ const caffeineSketch = (p) => {
         }
     }
 
-    const drawHorizontalGradient = (x, y, widthPx, heightPx, startColor, endColor, axis) => {
-        // source: https://p5js.org/examples/color-linear-gradient.html (but I understand)
-        for (let i = x; i <= x + widthPx; i++) {
-            let inter = p.map(i, x, x + widthPx, 0, 1);
-            let c = p.lerpColor(startColor, endColor, inter);
-            p.stroke(c);
-            p.line(i, y, i, y + heightPx);
-          }
-    }
-
     const drawGraphPoly = (vertices) => {
         if(vertices.length <= 1) return;
-
-        const bDrawDots = true;
+        
+        p.smooth();
+        const bDrawDots = false;
         if(bDrawDots) {
             p.noStroke();
-            //p.fill(colors.sand);
-            p.noFill();
+            p.fill(colors.sand);
             vertices.forEach(vertex => p.ellipse(vertex.x, vertex.y, 3,3));
         }
 
-
         const bDrawSmooth = false;
 
-        colors.sand.setAlpha(50);
+        colors.sand.setAlpha(25);
         p.fill(colors.sand);
         colors.sand.setAlpha(255);
         p.stroke(colors.sand);
@@ -236,12 +234,13 @@ const caffeineSketch = (p) => {
         p.endShape();
     }
 
-    const drawBubbles = () => {
+    const drawBubbles = (pxPerCaffeineMg) => {
         coffees.forEach(coffee => {
             const bSelected = coffee.id === selectedCoffeeId;
             const bHovered = hitDetectionBubbles([coffee]).length > 0;
             const dimensions =  bSelected ? bubble.active : bubble.inactive;
 
+            // bSelected ? p.stroke(dimensions.iconColor) : p.noStroke();
             p.noStroke();
             /* colors.sand.setAlpha(255); */
             const fillColor = bHovered ? bubble.hover.backgroundColor : dimensions.backgroundColor;
@@ -291,29 +290,32 @@ const caffeineSketch = (p) => {
             }
             const nextVertex = vertices[nextId];
             const prevVertex = vertices[prevId];
-           // console.log({prevId, nextId});
-           /*  p.fill('green');
-            p.ellipse(nextVertex.x, nextVertex.y, 5, 5);
-            p.fill('blue');
-            p.ellipse(prevVertex.x, prevVertex.y, 5, 5); */
+
+            const bDrawSegmentDots = false;
+            if (bDrawSegmentDots) {
+                p.fill(colors.sand);
+                const dotSize = 3;
+                p.ellipse(nextVertex.x, nextVertex.y, dotSize, dotSize);
+                p.ellipse(prevVertex.x, prevVertex.y, dotSize, dotSize);
+            }
+
             const progressBetween = (x - prevVertex.x) / (nextVertex.x  - prevVertex.x);
             drawY = prevVertex.y - ( prevVertex.y - nextVertex.y ) * progressBetween;
             const t = xPositionToDate(mouseCanvasPosition.x);
             messages.push({bBold: false, fontSize: 15, lineHeight: 18, message: `${leadingZeros(t.getHours(), 2)}:${leadingZeros(t.getMinutes(), 2)}`});
-            const caffeineAtMouseMg = caffeineMgAtTimeMin2(t, prevVertex.time, prevVertex.caffeineMg);
+            const caffeineAtMouseMg = caffeineMgAtTimeMin(t, prevVertex.time, prevVertex.caffeineMg);
             messages.push({bBold: true, fontSize: 20, lineHeight: 16, message: `${caffeineAtMouseMg.toFixed(0)}mg`});
             
             let caffeineTip = '';
-            if (caffeineAtMouseMg > 100) {
-                caffeineTip = 'a lot!';
-            }
-            else if (caffeineAtMouseMg > 10) {
-                caffeineTip = 'noticable';
-            }else if (caffeineAtMouseMg > 0) {
-                caffeineTip = 'neglectable';
+
+            for(let i = 0; i < caffeineTips.length; i++) {
+                if(caffeineAtMouseMg > caffeineTips[i].fromMg) {
+                    caffeineTip = caffeineTips[i].tip;
+                    break;
+                }
             }
 
-            caffeineTip = caffeineTip.length > 0 ? `(${caffeineTip})` : caffeineTip;
+            caffeineTip = caffeineTip.length > 0 ? `(effect: ${caffeineTip})` : caffeineTip;
             messages.push({bBold: false, fontSize: 12, lineHeight: 10, message: caffeineTip});
         }
 
@@ -323,9 +325,8 @@ const caffeineSketch = (p) => {
 
         const lineHeightMultiplier = 1;
         let cursorOffsetY = 0; // New line y offset 
-        let textOffsetY = -15; // align with
+        let textOffsetY = -15;
         messages.forEach((m, idx) => {if (idx < messages.length - 1) textOffsetY += m.lineHeight * lineHeightMultiplier;});
-        //totalTextHeight = 0;
         messages.forEach(m => {
             p.textStyle(m.bBold ? p.BOLD : p.NORMAL);
             p.textSize(m.fontSize);
@@ -352,16 +353,14 @@ const caffeineSketch = (p) => {
 
         const xSampleInserts = [];
         coffees.forEach(coffee => xSampleInserts.push(dateToXPosition(coffee.consumedAt.getTime()), dateToXPosition(coffee.consumedAt.getTime() + absorptionTimeMin * TIME.msInMinute)));
-        //if (bMouseOnCanvas) xSampleInserts.push(mouseCanvasPosition.x);
 
         let lastRegularProgressPx = 0;
         while(xProgressPx <= width) {
             
             const t = xPositionToDate(xProgressPx);
-            const caffeineMg = caffeineMgAtTimeMin2(t, previousDate, previousCaffeineMg, false);
+            const caffeineMg = caffeineMgAtTimeMin(t, previousDate, previousCaffeineMg, false);
             const vertex = {x: xProgressPx, caffeineMg, time: t}; 
 
-            //peakVertex.caffeineMg = Math.max(peakVertex.caffeineMg, vertex.caffeineMg);
             if (peakVertex.caffeineMg <= vertex.caffeineMg) {
                 peakVertex = vertex;
             }
@@ -406,23 +405,7 @@ const caffeineSketch = (p) => {
         return [vertices, peakVertex];
     }
 
-
-
-    // t is of type date
-    const caffeineMgAtTimeMin = (t) => {
-
-        let caffeineMg = 0;
-        coffees.filter(filter => !filter.bInCreation).forEach(coffee => {
-            const inBloodTimeMin = (t - coffee.consumedAt) / TIME.msInMinute;
-            const timeSincePeakMin = Math.max(0, inBloodTimeMin - absorptionTimeMin);
-            const absorptionPhaseMg = clamp(inBloodTimeMin / absorptionTimeMin, 0, 1) * coffee.sizeMl * coffee.caffeineMgPerMl;
-            const caffeineLeftMg = absorptionPhaseMg * Math.pow(1/2, timeSincePeakMin / halfLifeMin); 
-            caffeineMg += Math.max(0,caffeineLeftMg);
-        });
-        return caffeineMg;
-    }
-
-    const caffeineMgAtTimeMin2 = (t, tPrev, cPrev, bDebugLogTemp = false) => {
+    const caffeineMgAtTimeMin = (t, tPrev, cPrev, bDebugLogTemp = false) => {
 
         const tDeltaMin = (t - tPrev) / TIME.msInMinute;
         
@@ -462,7 +445,7 @@ const caffeineSketch = (p) => {
 
         //center
         const x = dateToXPosition(coffee.consumedAt);
-        const y = height - dimensions.marginBottomPx - dimensions.arrowHeightPx - dimensions.heightPx / 2;
+        const y = height - (dimensions.marginBottomPx + dimensions.arrowHeightPx + dimensions.heightPx / 2);
 
         const top = y - dimensions.heightPx / 2;
         const right = x + dimensions.widthPx / 2;
@@ -487,12 +470,12 @@ const caffeineSketch = (p) => {
         });
     }
 
-    const getMousePositionFromEvent = (e) => {
+/*     const getMousePositionFromEvent = (e) => {
         const frameRect = e.currentTarget.getBoundingClientRect();
         const localX = e.clientX - frameRect.left;
         const localY = e.clientY - frameRect.top;
         return {x: localX, y:localY};
-    }
+    } */
 
     const handleClickCanvas = (e) => {
 
@@ -503,11 +486,6 @@ const caffeineSketch = (p) => {
             selectCoffeeById(null);
         }
     };
-    
-    const handleMouseMoveCanvas = (e) => {
-        //mouseCanvasPosition = getMousePositionFromEvent(e);
-    }
-
 }
 
 export default caffeineSketch;

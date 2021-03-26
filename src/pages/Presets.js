@@ -1,7 +1,5 @@
 import styles from './../css/presets.module.css';
 import Preset from './../components/Preset.js';
-import { useState, useEffect } from 'react';
-import { set } from 'animejs';
 
 const Presets = ({coffeeTypes, createCoffeeFromTypeId, setRouteHome, loadPreset, resetCoffeeStates, activePreset}) => {
 
@@ -41,7 +39,7 @@ const Presets = ({coffeeTypes, createCoffeeFromTypeId, setRouteHome, loadPreset,
             [
                 createBeverageInstruction('pumpkin spice latte™', 9, 15),
                 createBeverageInstruction('vanilla latte™', 11, 30),
-                createBeverageInstruction('pumpkin spice latte™', 16),
+                createBeverageInstruction('pumpkin spice latte™', 16, 0),
             ],
             [
                 createStatementState (3, true)
@@ -104,5 +102,5 @@ const Presets = ({coffeeTypes, createCoffeeFromTypeId, setRouteHome, loadPreset,
         </div>
     );
 }
- 
+
 export default Presets;

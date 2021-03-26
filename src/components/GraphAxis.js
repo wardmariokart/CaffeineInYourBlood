@@ -1,6 +1,6 @@
 import styles from '../css/graphAxis.module.css';
-import { mapRange, clamp, minToMs, leadingZeros, TIME} from '../helpers.js';
-import { easeInExpo, easeOutQuad, easeOutBack } from '../helpers/easingHelpers.js';
+import { mapRange, clamp, minToMs, leadingZeros, TIME} from '../helpers/helpers.js';
+import { easeOutQuad, easeOutBack } from '../helpers/easingHelpers.js';
 
 const GraphAxis = ({scrollPx, scrollableTimeMs, frameTimeMs, frameWidthPx, startDate}) => {
 

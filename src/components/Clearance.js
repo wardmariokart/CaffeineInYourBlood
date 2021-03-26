@@ -1,46 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styles from './../css/clearance.module.css';
-import { TIME } from './../helpers.js';
+import { TIME } from '../helpers/helpers.js';
 import Statement from './Statement.js';
 
 const Clearance = ({statementStates, setStatementState, baseHalfLife, halfLifeMin , setHalfLifeMin}) => {
 
-    const [statements, setStatements] = useState([
+
+    // useMemo is used to avoids doing unnecessary expensive computations every render if the computation should only be done if some variables chagne (instead of every render)
+    // Ik gebruik useMemo niet echt voor een dure berekening maar eslint gaf een warning dus heb tip van eslint opgevolgt useMemo opgezocht
+    const statements =  useMemo(() => [
         {
             id: 1,
             title: 'statement #1', 
             body: 'I drink one ore two alcoholic beverages a day',
-            disagreeTip: '+ 0% half life duration',
-            agreeTip: '+72% half life duration',
             effect: 0.72,
         },
         {
             id: 2,
             title: 'statement #2', 
             body: 'I am a smoker',
-            disagreeTip: '+ 0% half life duration',
-            agreeTip: '-50% half life duration',
             effect: -0.5,
         },
         {
             id: 3,
             title: 'statement #3', 
             body: 'I am currently taking oral contraceptives',
-            disagreeTip: '+ 0% half life duration',
-            agreeTip: '+90% half life duration',
             effect: 0.9,
         },
         {
             id: 4,
             title: 'statement #4', 
             body: 'I am pregnant',
-            disagreeTip: '+ 0% half life duration',
-            agreeTip: '+72% half life duration',
             effect: 0.25,
         }
-    ]);
+    ],[]);
 
+    // Deze useEffect kan vermeden worden door onderstaande functionaliteit en 'statements' variable aan app.js toe te voegen
+    // Ik koos om dit niet te doen en seperation of concerns in het achterhoofd te houden
+    // Na dit uitgeschreven te hebben ben niet volledig overtuigd (maar ik wil app.js niet nog meer vervuilen.)
     useEffect(() => {
         let halfLife = baseHalfLife;
         const method1 = true;
@@ -66,8 +64,6 @@ const Clearance = ({statementStates, setStatementState, baseHalfLife, halfLifeMi
         key={statement.id}
         title={statement.title}
         body={statement.body}
-        agreeTip={statement.agreeTip}
-        disagreeTip={statement.disagreeTip}
         setAgree={(bAgree) => setStatementState(statement.id, bAgree)}
         bAgree={state ? state.bAgree : false}
         effect={statement.effect}
@@ -76,7 +72,12 @@ const Clearance = ({statementStates, setStatementState, baseHalfLife, halfLifeMi
 
     return (
         <section className={styles.clearance}>
-            <h2>Caffeine half life: {Math.floor(halfLifeMin / TIME.minutesInHour).toFixed(0)} hours and {(halfLifeMin - Math.floor(halfLifeMin / TIME.minutesInHour) * TIME.minutesInHour).toFixed(0)} minutes</h2>
+            <div className={styles.head}>
+                <h2 className={styles.title}>Caffeine half life:</h2>
+
+                {baseHalfLife !== halfLifeMin && <><span className={styles.strikethrough}><span className={styles.halfLifeNumber}>{Math.floor(baseHalfLife / TIME.minutesInHour).toFixed(0)}</span> hours <span className={styles.halfLifeNumber}>{(baseHalfLife - Math.floor(baseHalfLife / TIME.minutesInHour) * TIME.minutesInHour).toFixed(0)}</span> minutes</span><span className={styles.arrow}></span></>}
+                <span className={styles.halfLife}><span className={styles.halfLifeNumber}>{Math.floor(halfLifeMin / TIME.minutesInHour).toFixed(0)}</span> hours <span className={styles.halfLifeNumber}>{(halfLifeMin - Math.floor(halfLifeMin / TIME.minutesInHour) * TIME.minutesInHour).toFixed(0)}</span> minutes</span>
+            </div>
             <div className={styles.statements}> 
                 {statementsJsx}
             </div>
